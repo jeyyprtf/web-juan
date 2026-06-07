@@ -11,8 +11,6 @@ import type { ComponentType, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { FadeIn } from "@/components/ui/motion-primitives";
-
 type Project = {
   id: string;
   icon: ComponentType<{ className?: string }>;
@@ -132,7 +130,7 @@ export function Projects({
     <section className="relative w-full">
       <div className="mx-auto w-full max-w-275 px-6 sm:px-10">
         {withHeadline ? (
-          <FadeIn className="flex flex-col items-center gap-5 pt-12 pb-10 text-center sm:pt-20 sm:pb-14">
+          <div className="hero-fade-in flex flex-col items-center gap-5 pt-12 pb-10 text-center sm:pt-20 sm:pb-14">
             <h2 className="font-serif text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[3rem] lg:text-[3.5rem]">
               My projects
             </h2>
@@ -140,7 +138,7 @@ export function Projects({
               From smart IoT devices to AI-powered systems, a look at the
               solutions I&rsquo;ve built for real-world problems.
             </p>
-          </FadeIn>
+          </div>
         ) : null}
 
         <div className="columns-1 gap-6 md:columns-2 md:gap-7">
@@ -177,9 +175,9 @@ function ProjectCard({
 }): ReactNode {
   const Icon = project.icon;
   return (
-    <FadeIn
-      delay={Math.min(index * 0.06, 0.3)}
-      className="mb-6 break-inside-avoid md:mb-7"
+    <div
+      className="hero-fade-in mb-6 break-inside-avoid md:mb-7"
+      style={{ animationDelay: `${Math.min(index * 0.06, 0.3)}s` }}
     >
       <article className="project-card flex cursor-pointer flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 sm:p-3.5">
         <header className="flex items-center gap-2.5 px-1 pt-2">
@@ -246,6 +244,6 @@ function ProjectCard({
           )}
         </div>
       </article>
-    </FadeIn>
+    </div>
   );
 }

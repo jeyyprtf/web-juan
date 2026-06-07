@@ -200,6 +200,8 @@ export function ShaderFlow(props: ShaderFlowProps): ReactNode {
     let visible = true;
     let onScreen = true;
     const t0 = performance.now();
+    let lastFrame = 0;
+    const FRAME_INTERVAL = 1000 / 30; // Throttle to 30fps — indistinguishable for slow flow
 
     const onVisibility = (): void => {
       visible = document.visibilityState === "visible";
@@ -240,13 +242,14 @@ export function ShaderFlow(props: ShaderFlowProps): ReactNode {
       ];
     };
 
-    const tick = (): void => {
-      if (visible && onScreen) {
-        p.uniforms.uT.value = (performance.now() - t0) / 1000;
-        sync();
-        r.render({ scene });
-      }
+    const tick = (now: number): void => {
       raf = requestAnimationFrame(tick);
+      if (!visible || !onScreen) return;
+      if (now - lastFrame < FRAME_INTERVAL) return;
+      lastFrame = now;
+      p.uniforms.uT.value = (now - t0) / 1000;
+      sync();
+      r.render({ scene });
     };
     raf = requestAnimationFrame(tick);
 

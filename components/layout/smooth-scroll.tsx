@@ -12,6 +12,7 @@ const LENIS_OPTIONS = {
   smoothWheel: true,
   wheelMultiplier: 1,
   touchMultiplier: 2,
+  autoRaf: true,
 };
 
 export function SmoothScroll({
@@ -29,13 +30,6 @@ export function SmoothScroll({
     if (prefersReducedMotion) return;
 
     const lenis = new Lenis(LENIS_OPTIONS);
-
-    function raf(time: number): void {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    const rafId = requestAnimationFrame(raf);
 
     function handleAnchorClick(e: MouseEvent): void {
       const target = e.target as HTMLElement;
@@ -56,7 +50,6 @@ export function SmoothScroll({
 
     return () => {
       document.removeEventListener("click", handleAnchorClick);
-      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

@@ -1,11 +1,19 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import type { ReactNode } from "react";
 
 import { HeroCtas } from "./hero-ctas";
 import { FadeIn, ScaleUnblur } from "@/components/ui/motion-primitives";
-import { PortraitMorph } from "./portrait-morph";
 
 const PORTRAIT_SRC = "/juan.webp";
 const PORTRAIT_HOVER_SRC = "/juan_wave.webp";
+
+const PortraitMorph = dynamic(
+  () => import("./portrait-morph").then((m) => m.PortraitMorph),
+  { ssr: false }
+);
 
 export function Hero(): ReactNode {
   return (
@@ -38,11 +46,23 @@ export function Hero(): ReactNode {
           <ScaleUnblur className="flex justify-stretch md:justify-end">
             <div className="relative aspect-square w-full md:max-w-105 overflow-hidden rounded-4xl border border-foreground/8 bg-background p-1.5 shadow-sm">
               <div className="relative h-full w-full overflow-hidden rounded-[1.6rem]">
-                <PortraitMorph
-                  srcA={PORTRAIT_SRC}
-                  srcB={PORTRAIT_HOVER_SRC}
+                {/* Static image for fast LCP — visible immediately */}
+                <Image
+                  src={PORTRAIT_SRC}
                   alt="Juan portrait"
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 420px, 100vw"
+                  className="object-cover grayscale"
                 />
+                {/* WebGL morph overlay — loaded after hydration */}
+                <div className="absolute inset-0">
+                  <PortraitMorph
+                    srcA={PORTRAIT_SRC}
+                    srcB={PORTRAIT_HOVER_SRC}
+                    alt="Juan portrait"
+                  />
+                </div>
               </div>
             </div>
           </ScaleUnblur>

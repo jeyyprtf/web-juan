@@ -290,6 +290,8 @@ function ChipPill({ chip }: { chip: Chip }): ReactNode {
           alt=""
           width={18}
           height={18}
+          loading="lazy"
+          decoding="async"
           className="h-5 w-5"
           draggable={false}
         />

@@ -1,6 +1,12 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 
-import { ShaderFlow } from "../shaders/shader-flow";
+const ShaderFlow = dynamic(
+  () => import("../shaders/shader-flow").then((m) => m.ShaderFlow),
+  { ssr: false }
+);
 
 export function PageBackdrop(): ReactNode {
   return (

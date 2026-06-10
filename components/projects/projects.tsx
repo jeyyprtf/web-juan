@@ -128,6 +128,7 @@ const PROJECTS: Project[] = [
     imageRatio: 16 / 9,
     image: "/projects/web1-umkm.webp",
     imageAlt: "UMKM business website template landing page",
+    liveDemo: "https://contoh1.juan.web.id",
     github: "https://github.com/jeyyprtf/EXAMPLE-umkm",
   },
   {
@@ -142,6 +143,7 @@ const PROJECTS: Project[] = [
     imageRatio: 16 / 9,
     image: "/projects/web2-kost.webp",
     imageAlt: "Kost boarding house listing website with room details",
+    liveDemo: "https://contoh2.juan.web.id",
     github: "https://github.com/jeyyprtf/EXAMPLE-kost",
   },
   {
@@ -156,6 +158,7 @@ const PROJECTS: Project[] = [
     imageRatio: 16 / 9,
     image: "/projects/web3-warung.webp",
     imageAlt: "Warung makan restaurant website template with menu and contact info",
+    liveDemo: "https://contoh3.juan.web.id",
     github: "https://github.com/jeyyprtf/EXAMPLE-WEB-warung-makan",
   },
 ];
@@ -238,16 +241,22 @@ function ProjectCard({
           className="project-card__image ring-foreground/5 relative w-full overflow-hidden rounded-2xl bg-foreground/5 ring-1"
           style={{ aspectRatio: project.imageRatio }}
         >
-          <div className="project-card__image-inner">
+          <a
+            href={project.liveDemo ?? project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-card__image-inner block h-full w-full"
+            aria-label={`Open ${project.iconLabel}`}
+          >
             <Image
               src={project.image}
               alt={project.imageAlt}
               fill
               sizes="(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-500 hover:scale-105"
               priority={index < 2}
             />
-          </div>
+          </a>
         </div>
 
         <div className="flex flex-col gap-2.5 px-1 pb-1">

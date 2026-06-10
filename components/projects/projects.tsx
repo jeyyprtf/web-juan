@@ -4,8 +4,11 @@ import {
   Cpu,
   Layers,
   Leaf,
+  ShoppingBag,
   Smartphone,
   Sprout,
+  Store,
+  UtensilsCrossed,
 } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
 import Image from "next/image";
@@ -112,6 +115,48 @@ const PROJECTS: Project[] = [
     imageRatio: 3 / 4,
     image: "/projects/sif-skaneka.webp",
     imageAlt: "Smart Integrated Farming system being presented at an exhibition",
+  },
+  {
+    id: "example-umkm",
+    icon: ShoppingBag,
+    iconLabel: "UMKM Website",
+    title:
+      "A modern landing page template for small and medium businesses (UMKM) to establish their online presence.",
+    description:
+      "Built a clean, responsive business website example featuring product showcase, business info, and contact sections — tailored for local Indonesian SMEs.",
+    meta: "Frontend Developer • Done",
+    imageRatio: 16 / 9,
+    image: "/projects/web1-umkm.webp",
+    imageAlt: "UMKM business website template landing page",
+    github: "https://github.com/jeyyprtf/EXAMPLE-umkm",
+  },
+  {
+    id: "example-kost",
+    icon: Store,
+    iconLabel: "Kost Website",
+    title:
+      "A boarding house (kost) listing website to help property owners showcase their rooms online.",
+    description:
+      "Designed a responsive rental property website with room listings, amenities details, pricing info, and contact form for prospective tenants.",
+    meta: "Frontend Developer • Done",
+    imageRatio: 16 / 9,
+    image: "/projects/web2-kost.webp",
+    imageAlt: "Kost boarding house listing website with room details",
+    github: "https://github.com/jeyyprtf/EXAMPLE-kost",
+  },
+  {
+    id: "example-warung-makan",
+    icon: UtensilsCrossed,
+    iconLabel: "Warung Makan Website",
+    title:
+      "A restaurant website template for local Indonesian eateries (warung makan) to attract more customers.",
+    description:
+      "Created a warm, inviting food business website featuring menu display, operating hours, location info, and a simple ordering call-to-action.",
+    meta: "Frontend Developer • Done",
+    imageRatio: 16 / 9,
+    image: "/projects/web3-warung.webp",
+    imageAlt: "Warung makan restaurant website template with menu and contact info",
+    github: "https://github.com/jeyyprtf/EXAMPLE-WEB-warung-makan",
   },
 ];
 

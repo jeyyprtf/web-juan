@@ -12,7 +12,8 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = createMetadata({
   title: "About",
-  description: "About Juan — AI Engineer, Full Stack Developer, and AIoT Developer.",
+  description:
+    "About Juan — AI Specialist & Engineer building intelligent systems, automation, and AIoT.",
   path: "/about",
 });
 
@@ -31,13 +32,13 @@ export default function AboutPage(): ReactNode {
             </h1>
             <div className="mt-8 space-y-6 text-[17px] leading-[1.7] tracking-tight text-foreground/75 sm:text-[18px]">
               <p>
-                I&rsquo;m a <strong className="font-semibold text-foreground">Business Information Systems student</strong> who builds things that actually work in the real world — not just in theory.
+                I&rsquo;m an <strong className="font-semibold text-foreground">AI Specialist & Engineer</strong> who builds things that actually work in the real world — not just demos or theory.
               </p>
               <p>
-                My focus is at the intersection of <strong className="font-semibold text-foreground">AI and IoT</strong>, where I turn complex technology into practical, field-ready solutions. From engineering portable sensor tools for field technicians to leading AI detection deployments in rural farming environments, I&rsquo;ve learned that the best tech is the kind that <strong className="font-semibold text-foreground">solves real problems for real people</strong>.
+                My work sits at the intersection of <strong className="font-semibold text-foreground">AI, automation, and IoT</strong>: assistants, intelligent services, and field-ready AIoT. From portable sensor tools for technicians to AI detection deployments in rural farming, I focus on tech that <strong className="font-semibold text-foreground">solves real problems for real people</strong>.
               </p>
               <p>
-                Currently studying while actively taking on projects, I&rsquo;m driven by one belief: that <strong className="font-semibold text-foreground">smart systems should empower people, not complicate their lives</strong>. If you&rsquo;re looking for someone who can bridge the gap between cutting-edge technology and on-the-ground implementation — let&rsquo;s build something.
+                I&rsquo;m driven by one belief: <strong className="font-semibold text-foreground">smart systems should empower people, not complicate their lives</strong>. If you need someone who bridges cutting-edge AI with on-the-ground implementation — let&rsquo;s build something.
               </p>
             </div>
           </div>

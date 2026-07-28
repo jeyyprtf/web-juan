@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
 export const siteConfig = {
-  name: "Juan Portfolio",
+  name: "Juan",
+  title: "Juan — AI Specialist & Engineer",
   description:
-    "AI Engineer, Full Stack Developer, & AIoT Developer — building smart systems that empower people.",
+    "AI Specialist & Engineer building intelligent systems, automation, and AIoT that work in the real world.",
   url: "https://juan.web.id",
-  ogImage: "/og-image.png",
+  ogImage: "/opengraph-image",
   creator: "@jeyy_prtf",
+  email: "business@juan.web.id",
   authors: [
     {
       name: "Juan",
@@ -16,19 +18,28 @@ export const siteConfig = {
   keywords: [
     "Juan",
     "Juan Madhy",
+    "AI Specialist",
     "AI Engineer",
+    "AIoT",
+    "AI Automation",
     "Full Stack Developer",
-    "AIoT Developer",
+    "IoT Engineer",
+    "Smart Systems",
+    "Malang",
     "Portfolio",
-    "Juan developer",
-    "Juan Programmer",
   ],
+  social: {
+    github: "https://github.com/jeyyprtf",
+    linkedin: "https://linkedin.com/in/inijuan",
+    instagram: "https://instagram.com/jeyy_prtf",
+    tiktok: "https://tiktok.com/@jeyy_prtf",
+  },
 } as const;
 
 export const baseMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.name,
+    default: siteConfig.title,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -54,7 +65,7 @@ export const baseMetadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: siteConfig.name,
+    title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
@@ -62,20 +73,19 @@ export const baseMetadata: Metadata = {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: siteConfig.title,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: siteConfig.title,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
     creator: siteConfig.creator,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/favicon.ico" }],
     apple: "/apple-icon.png",
   },
   manifest: "/site.webmanifest",
@@ -104,7 +114,7 @@ export function createMetadata({
       canonical: path,
     },
     openGraph: {
-      title: title ?? siteConfig.name,
+      title: title ?? siteConfig.title,
       description: description ?? siteConfig.description,
       url,
       images: [
@@ -112,12 +122,12 @@ export function createMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: title ?? siteConfig.name,
+          alt: title ?? siteConfig.title,
         },
       ],
     },
     twitter: {
-      title: title ?? siteConfig.name,
+      title: title ?? siteConfig.title,
       description: description ?? siteConfig.description,
       images: [ogImage],
     },

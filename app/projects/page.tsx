@@ -7,7 +7,8 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = createMetadata({
   title: "Projects",
-  description: "Selected projects and work by Juan.",
+  description:
+    "AI systems, AIoT devices, and full-stack products built by Juan.",
   path: "/projects",
 });
 

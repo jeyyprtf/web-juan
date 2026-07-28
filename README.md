@@ -1,29 +1,24 @@
 # Juan Portfolio
 
-Personal portfolio website of Juan — AI Engineer, Full Stack Developer, & AIoT Developer.
+Personal site of **Juan** — AI Specialist & Engineer.
 
 🌐 **Live**: [juan.web.id](https://juan.web.id)
 
-## Tech Stack
+## Tech
 
-- **Framework**: Next.js 16 + TypeScript
-- **Styling**: Tailwind CSS v4
-- **Animation**: Framer Motion, Matter.js, OGL
-- **Deployment**: Vercel / Netlify
+- Next.js 16 + React 19 + TypeScript
+- Tailwind CSS v4
+- Motion, Matter.js, OGL
+- Deploy: Netlify / Vercel
 
-## Getting Started
+## Scripts
 
 ```bash
 npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-## Build
-
-```bash
+npm run dev      # http://localhost:3000
 npm run build
+npm run lint
+npm run typecheck
 ```
 
 ## License

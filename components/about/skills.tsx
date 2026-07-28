@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
 
 const SKILLS = [
+  "AI Systems & Agents",
   "AI Automation",
-  "AI Service",
-  "AI Assistant",
+  "AI Assistants",
+  "AIoT & Edge AI",
   "Full Stack Development",
-  "AIoT Development",
-  "Frontend Development",
-  "Backend Development",
+  "API & Backend Services",
   "IoT & Embedded Systems",
-  "API Development",
+  "Industrial Sensors / Modbus",
+  "Smart Infrastructure",
 ];
 
 export function Skills(): ReactNode {

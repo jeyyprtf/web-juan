@@ -6,7 +6,6 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -129,25 +128,37 @@ export function Nav(): ReactNode {
 
   useLayoutEffect(() => {
     const list = listRef.current;
-    const activeEl =
-      activeIndex >= 0 ? itemRefs.current[activeIndex] : null;
-    if (!list || !activeEl) {
-      setPillRect(null);
-      return;
-    }
-    const listRect = list.getBoundingClientRect();
-    const itemRect = activeEl.getBoundingClientRect();
-    setPillRect({
-      x: itemRect.left - listRect.left,
-      width: itemRect.width,
-    });
-  }, [activeIndex, pathname]);
+    if (!list) return;
 
-  useEffect(() => {
-    if (!pillRect) return;
-    const id = requestAnimationFrame(() => setHasMeasured(true));
-    return () => cancelAnimationFrame(id);
-  }, [pillRect]);
+    const measure = (): void => {
+      const activeEl =
+        activeIndex >= 0 ? itemRefs.current[activeIndex] : null;
+      if (!activeEl) {
+        setPillRect(null);
+        return;
+      }
+      const listRect = list.getBoundingClientRect();
+      const itemRect = activeEl.getBoundingClientRect();
+      setPillRect({
+        x: itemRect.left - listRect.left,
+        width: itemRect.width,
+      });
+    };
+
+    const frame = requestAnimationFrame(() => {
+      measure();
+      setHasMeasured(true);
+    });
+    const ro = new ResizeObserver(measure);
+    ro.observe(list);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [activeIndex, pathname]);
 
   return (
     <nav

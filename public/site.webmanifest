@@ -1,11 +1,11 @@
 {
-  "name": "Juan Portfolio",
+  "name": "Juan — AI Specialist",
   "short_name": "Juan",
-  "description": "AI Engineer, Full Stack Developer, & AIoT Developer — building smart systems that empower people.",
+  "description": "AI Specialist & Engineer building intelligent systems, automation, and AIoT that work in the real world.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0066FF",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
   "icons": [
     {
       "src": "/icon-192.png",

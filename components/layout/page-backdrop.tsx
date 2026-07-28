@@ -12,21 +12,22 @@ export function PageBackdrop(): ReactNode {
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
-    // Delay shader init so it doesn't compete with LCP rendering
-    let id: number | ReturnType<typeof setTimeout>;
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      id = (window as any).requestIdleCallback(() => setMount(true), { timeout: 2000 });
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(() => setMount(true), {
+        timeout: 2000,
+      });
     } else {
-      id = setTimeout(() => setMount(true), 1500);
+      timeoutId = setTimeout(() => setMount(true), 1500);
     }
 
     return () => {
-      if (typeof window !== "undefined" && "cancelIdleCallback" in window) {
-        (window as any).cancelIdleCallback(id);
-      } else {
-        clearTimeout(id as ReturnType<typeof setTimeout>);
+      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
       }
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
     };
   }, []);
 

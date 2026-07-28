@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+BIODATA-EXPORT.md
+PAGE SPEED INSIGHT AFTER FIXING.md

@@ -12,26 +12,22 @@ type Chip = {
 };
 
 const CHIPS: Chip[] = [
+  { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
+  { label: "TypeScript", slug: "typescript", bg: "#3178C6", fg: "#ffffff" },
+  { label: "JavaScript", slug: "javascript", bg: "#F7DF1E", fg: "#0a0a0a" },
+  { label: "Next.js", slug: "nextdotjs", bg: "#000000", fg: "#ffffff" },
   { label: "React", slug: "react", bg: "#1FB6CB", fg: "#ffffff" },
   { label: "Node.js", slug: "nodedotjs", bg: "#339933", fg: "#ffffff" },
-  { label: "JavaScript", slug: "javascript", bg: "#F7DF1E", fg: "#0a0a0a" },
-  { label: "Tailwind CSS", slug: "tailwindcss", bg: "#2BBCF5", fg: "#ffffff" },
+  { label: "FastAPI", slug: "fastapi", bg: "#009688", fg: "#ffffff" },
   { label: "Express", slug: "express", bg: "#1f1f1f", fg: "#ffffff" },
+  { label: "Tailwind CSS", slug: "tailwindcss", bg: "#2BBCF5", fg: "#ffffff" },
   { label: "PostgreSQL", slug: "postgresql", bg: "#4169E1", fg: "#ffffff" },
+  { label: "Supabase", slug: "supabase", bg: "#3ECF8E", fg: "#0a0a0a" },
   { label: "Docker", slug: "docker", bg: "#2496ED", fg: "#ffffff" },
+  { label: "MQTT", slug: "mqtt", bg: "#660066", fg: "#ffffff" },
+  { label: "Arduino", slug: "arduino", bg: "#00878F", fg: "#ffffff" },
   { label: "Git", slug: "git", bg: "#F05032", fg: "#ffffff" },
   { label: "GitHub", slug: "github", bg: "#181717", fg: "#ffffff" },
-  { label: "VS Code", slug: "visualstudiocode", bg: "#007ACC", fg: "#ffffff" },
-  {
-    label: "Figma",
-    slug: "figma",
-    bg: "#1f1f1f",
-    fg: "#ffffff",
-    iconUrl: "https://svgl.app/library/figma.svg",
-  },
-  { label: "MySQL", slug: "mysql", bg: "#4479A1", fg: "#ffffff" },
-  { label: "HTML", slug: "html5", bg: "#E34F26", fg: "#ffffff" },
-  { label: "CSS", slug: "css3", bg: "#1572B6", fg: "#ffffff" },
 ];
 
 const CHIP_RADIUS = 14;

@@ -80,10 +80,10 @@ export function ContactCard(): ReactNode {
                 </div>
                 <div className="flex flex-col items-center gap-1 text-center">
                   <p className="text-[13px] tracking-tight text-foreground/70">
-                    2026 &copy; Juan Portfolio
+                    2026 &copy; Juan
                   </p>
                   <p className="text-[12px] tracking-tight text-foreground/45">
-                    Built with Next.js
+                    AI Specialist · Built with Next.js
                   </p>
                 </div>
               </div>

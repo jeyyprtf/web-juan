@@ -86,7 +86,7 @@ export function Experience(): ReactNode {
           </ul>
         </motion.div>
 
-        {showToggle && (
+        {showToggle ? (
           <>
             <AnimatePresence>
               {!open && (
@@ -131,7 +131,7 @@ export function Experience(): ReactNode {
               </motion.span>
             </button>
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );

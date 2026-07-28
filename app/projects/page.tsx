@@ -1,6 +1,6 @@
 import { ContactCard } from "@/components/contact/contact-card";
 import { Projects } from "@/components/projects/projects";
-import { FadeIn } from "@/components/ui/motion-primitives";
+import { Reveal } from "@/components/ui/motion-primitives";
 import { createMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -16,14 +16,15 @@ export default function ProjectsPage(): ReactNode {
   return (
     <main id="main-content" className="flex flex-1 flex-col">
       <section className="mx-auto w-full max-w-275 px-6 pt-44 pb-16 sm:px-10 sm:pt-100 sm:pb-20">
-        <FadeIn className="flex flex-col items-center gap-5 text-center">
+        <Reveal className="flex flex-col items-center gap-5 text-center">
           <h1 className="font-serif text-[2.75rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[3.25rem] lg:text-[3.75rem]">
             My recent work
           </h1>
           <p className="max-w-[33ch] text-[20px] leading-[1.4] tracking-tight text-foreground/65 sm:text-[22px]">
-            From AI-powered systems to IoT devices, projects I&rsquo;m especially proud to have built.
+            From AI-powered systems to IoT devices, projects I&rsquo;m especially
+            proud to have built. Tap a card for details.
           </p>
-        </FadeIn>
+        </Reveal>
       </section>
       <Projects />
       <ContactCard />

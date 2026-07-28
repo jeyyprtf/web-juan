@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -21,6 +21,32 @@ export function FadeIn({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration, delay, ease: EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Fade/slide in when scrolled into view. */
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+  y = 24,
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+  y?: number;
+}): ReactNode {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduced ? false : { opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15, margin: "0px 0px -40px 0px" }}
+      transition={{ duration: reduced ? 0.01 : 0.65, delay, ease: EASE }}
       className={className}
     >
       {children}

@@ -1,12 +1,17 @@
+"use client";
+
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
+import { Modal } from "@/components/ui/modal";
 import { certifications, profile } from "@/lib/content";
 
-const ROW_HEIGHT = 56;
+type Entry = (typeof certifications)[number];
 
 export function Certifications(): ReactNode {
+  const [active, setActive] = useState<Entry | null>(null);
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
@@ -17,7 +22,7 @@ export function Certifications(): ReactNode {
           href={profile.certsDrive}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring inline-flex items-center gap-1.5 text-[13px] font-medium tracking-tight text-foreground/60 hover:text-foreground transition-colors"
+          className="focus-ring text-foreground/60 hover:text-foreground inline-flex items-center gap-1.5 text-[13px] font-medium tracking-tight transition-colors"
         >
           View all
           <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -26,34 +31,66 @@ export function Certifications(): ReactNode {
       <div className="border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative rounded-4xl border p-2 sm:p-4">
         <ul className="flex flex-col gap-2">
           {certifications.map((entry) => (
-            <li
-              key={`${entry.title}-${entry.year}`}
-              className="bg-background border-foreground/5 flex items-center gap-4 rounded-3xl border px-4 py-3"
-              style={{ minHeight: ROW_HEIGHT }}
-            >
-              <span
-                className="border-foreground/15 inline-flex h-10 w-10 shrink-0 items-center justify-center border"
-                aria-hidden="true"
-                style={{ borderRadius: 12 }}
+            <li key={entry.id}>
+              <button
+                type="button"
+                onClick={() => setActive(entry)}
+                className="bg-background border-foreground/5 hover:border-foreground/15 focus-ring flex w-full cursor-pointer items-center gap-4 rounded-3xl border px-4 py-3 text-left transition-colors"
+                style={{ minHeight: 56 }}
               >
-                <span className="text-foreground/60 text-[15px] font-semibold tracking-tight">
-                  {entry.issuer.charAt(0)}
+                <span
+                  className="border-foreground/15 inline-flex h-10 w-10 shrink-0 items-center justify-center border"
+                  aria-hidden="true"
+                  style={{ borderRadius: 12 }}
+                >
+                  <span className="text-foreground/60 text-[15px] font-semibold tracking-tight">
+                    {entry.issuer.charAt(0)}
+                  </span>
                 </span>
-              </span>
-              <div className="flex min-w-0 flex-col">
-                <span className="text-foreground text-[15px] font-semibold tracking-tight sm:text-[16px] leading-tight">
-                  {entry.title}
-                </span>
-                <span className="text-foreground/65 mt-0.5 text-[13px] tracking-tight sm:text-[14px]">
-                  {entry.issuer}
-                  <span className="text-foreground/30 mx-2">•</span>
-                  <span className="text-foreground/55">{entry.year}</span>
-                </span>
-              </div>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="text-foreground text-[15px] leading-tight font-semibold tracking-tight sm:text-[16px]">
+                    {entry.title}
+                  </span>
+                  <span className="text-foreground/65 mt-0.5 text-[13px] tracking-tight sm:text-[14px]">
+                    {entry.issuer}
+                    <span className="text-foreground/30 mx-2">•</span>
+                    <span className="text-foreground/55">{entry.year}</span>
+                  </span>
+                </div>
+                <span className="text-foreground/40 text-[12px]">↗</span>
+              </button>
             </li>
           ))}
         </ul>
       </div>
+
+      <Modal
+        open={!!active}
+        onClose={() => setActive(null)}
+        title={active?.title ?? "Certification"}
+      >
+        {active ? (
+          <div className="flex flex-col gap-3">
+            <p className="text-foreground/65 text-[15px]">
+              {active.issuer}
+              <span className="text-foreground/30 mx-2">•</span>
+              {active.year}
+            </p>
+            <p className="text-foreground/75 text-[16px] leading-relaxed">
+              {active.detail}
+            </p>
+            <Link
+              href={profile.certsDrive}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-ring border-foreground/10 text-foreground mt-2 inline-flex w-fit items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium"
+            >
+              Open certificates drive
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+        ) : null}
+      </Modal>
     </div>
   );
 }

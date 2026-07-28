@@ -1,7 +1,11 @@
+"use client";
+
 import {
   ArrowRight,
   Bot,
   Cpu,
+  ExternalLink,
+  Github,
   Layers,
   Leaf,
   ShoppingBag,
@@ -10,158 +14,25 @@ import {
   Store,
   UtensilsCrossed,
 } from "lucide-react";
-import type { ComponentType, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, type ComponentType, type ReactNode } from "react";
 
-type Project = {
-  id: string;
-  icon: ComponentType<{ className?: string }>;
-  iconLabel: string;
-  title: string;
-  description: string;
-  meta: string;
-  imageRatio: number;
-  image: string;
-  imageAlt: string;
-  liveDemo?: string;
-  github?: string;
+import { Modal } from "@/components/ui/modal";
+import { Reveal } from "@/components/ui/motion-primitives";
+import { projects as PROJECTS, type ProjectContent } from "@/lib/content";
+
+const ICONS: Record<string, ComponentType<{ className?: string }>> = {
+  "tfe-erp": Layers,
+  "smarthome-ai": Bot,
+  nevada: Leaf,
+  putu: Smartphone,
+  "portable-sensor": Cpu,
+  "sif-skaneka": Sprout,
+  "example-umkm": ShoppingBag,
+  "example-kost": Store,
+  "example-warung-makan": UtensilsCrossed,
 };
-
-const PROJECTS: Project[] = [
-  {
-    id: "tfe-erp",
-    icon: Layers,
-    iconLabel: "TFE ERP",
-    title:
-      "An ERP system that adapts to any business scale — from small teams to enterprise operations.",
-    description:
-      "Built a comprehensive ERP featuring task dashboards, progress tracking, task assignment, and meeting notes to streamline business workflows.",
-    meta: "Full Stack Developer • On Develop",
-    imageRatio: 1516 / 780,
-    image: "/projects/tfe-erp.webp",
-    imageAlt: "TFE ERP dashboard showing progress tracking and task management",
-    liveDemo: "https://erp.juan.web.id",
-    github: "https://github.com/jeyyprtf/erp",
-  },
-  {
-    id: "smarthome-ai",
-    icon: Bot,
-    iconLabel: "SmartHome AI",
-    title:
-      "A SmartHome AIoT Ecosystem with an integrated Live AI Assistant for intelligent home control.",
-    description:
-      "Engineered a complete smart home system combining AI assistant capabilities with online device control and real-time AI interaction.",
-    meta: "AI & IoT Engineer • On Develop",
-    imageRatio: 4 / 3,
-    image: "/projects/smarthome-ai.webp",
-    imageAlt: "SmartHome AI Assistant hardware prototype with ESP32-S3",
-    github: "https://github.com/jeyyprtf/AI-SmartHome-Jarvis-NodeJS",
-  },
-  {
-    id: "nevada",
-    icon: Leaf,
-    iconLabel: "Nevada",
-    title:
-      "Smart hydroponics IoT device with real-time monitoring and automated nutrition management.",
-    description:
-      "Developed a full-stack hydroponics system featuring dashboard information, automation controls, and nutrient level monitoring with sensor integration.",
-    meta: "IoT Developer • Done",
-    imageRatio: 1516 / 780,
-    image: "/projects/nevada.webp",
-    imageAlt: "Nevada smart hydroponics dashboard showing crop progress and water quality",
-    liveDemo: "https://nevada.juan.web.id",
-    github: "https://github.com/jeyyprtf/Nevada",
-  },
-  {
-    id: "putu",
-    icon: Smartphone,
-    iconLabel: "PuTu",
-    title:
-      "A task center for organizing college tasks, course schedules, and class information.",
-    description:
-      "Created a mobile-first academic organizer that helps students manage deadlines, track schedules, and stay on top of their coursework.",
-    meta: "Frontend Developer • Done",
-    imageRatio: 3 / 4,
-    image: "/projects/putu.webp",
-    imageAlt: "PuTu mobile app dashboard showing task overview and schedule",
-    liveDemo: "https://jeyyprtf.github.io/mockup-putu-mobile",
-    github: "https://github.com/jeyyprtf/mockup-putu-mobile",
-  },
-  {
-    id: "portable-sensor",
-    icon: Cpu,
-    iconLabel: "Portable Sensor Tool",
-    title:
-      "A portable tool for industrial Modbus sensor configuration and troubleshooting.",
-    description:
-      "Built an embedded tool for field technicians to label, change, troubleshoot, and reset sensor addresses — reducing configuration time significantly.",
-    meta: "Embedded Engineer • Done",
-    imageRatio: 4 / 3,
-    image: "/projects/portable-sensor.webp",
-    imageAlt: "Portable Sensor Tool circuit diagram with ESP32 and LCD display",
-    liveDemo: "https://wokwi.com/projects/415857379042801665",
-    github: "https://github.com/jeyyprtf/PortableSensorTool",
-  },
-  {
-    id: "sif-skaneka",
-    icon: Sprout,
-    iconLabel: "SIF Skaneka",
-    title:
-      "Integrated farming technology with automated fish feeding, plant watering, and aquaponic water recycling.",
-    description:
-      "Developed an IoT-based integrated farming system with automated feeding schedules, soil-triggered watering, and a real-time monitoring dashboard.",
-    meta: "IoT Developer • Done",
-    imageRatio: 3 / 4,
-    image: "/projects/sif-skaneka.webp",
-    imageAlt: "Smart Integrated Farming system being presented at an exhibition",
-  },
-  {
-    id: "example-umkm",
-    icon: ShoppingBag,
-    iconLabel: "UMKM Website",
-    title:
-      "A modern landing page template for small and medium businesses (UMKM) to establish their online presence.",
-    description:
-      "Built a clean, responsive business website example featuring product showcase, business info, and contact sections — tailored for local Indonesian SMEs.",
-    meta: "Frontend Developer • Done",
-    imageRatio: 16 / 9,
-    image: "/projects/web1-umkm.webp",
-    imageAlt: "UMKM business website template landing page",
-    liveDemo: "https://contoh1.juan.web.id",
-    github: "https://github.com/jeyyprtf/EXAMPLE-umkm",
-  },
-  {
-    id: "example-kost",
-    icon: Store,
-    iconLabel: "Kost Website",
-    title:
-      "A boarding house (kost) listing website to help property owners showcase their rooms online.",
-    description:
-      "Designed a responsive rental property website with room listings, amenities details, pricing info, and contact form for prospective tenants.",
-    meta: "Frontend Developer • Done",
-    imageRatio: 16 / 9,
-    image: "/projects/web2-kost.webp",
-    imageAlt: "Kost boarding house listing website with room details",
-    liveDemo: "https://contoh2.juan.web.id",
-    github: "https://github.com/jeyyprtf/EXAMPLE-kost",
-  },
-  {
-    id: "example-warung-makan",
-    icon: UtensilsCrossed,
-    iconLabel: "Warung Makan Website",
-    title:
-      "A restaurant website template for local Indonesian eateries (warung makan) to attract more customers.",
-    description:
-      "Created a warm, inviting food business website featuring menu display, operating hours, location info, and a simple ordering call-to-action.",
-    meta: "Frontend Developer • Done",
-    imageRatio: 16 / 9,
-    image: "/projects/web3-warung.webp",
-    imageAlt: "Warung makan restaurant website template with menu and contact info",
-    liveDemo: "https://contoh3.juan.web.id",
-    github: "https://github.com/jeyyprtf/EXAMPLE-WEB-warung-makan",
-  },
-];
 
 export type ProjectsProps = {
   withHeadline?: boolean;
@@ -173,12 +44,13 @@ export function Projects({
   viewMoreVisible = false,
 }: ProjectsProps): ReactNode {
   const items = viewMoreVisible ? PROJECTS.slice(0, 4) : PROJECTS;
+  const [active, setActive] = useState<ProjectContent | null>(null);
 
   return (
     <section className="relative w-full">
       <div className="mx-auto w-full max-w-275 px-6 sm:px-10">
         {withHeadline ? (
-          <div className="hero-fade-in flex flex-col items-center gap-5 pt-12 pb-10 text-center sm:pt-20 sm:pb-14">
+          <Reveal className="flex flex-col items-center gap-5 pt-12 pb-10 text-center sm:pt-20 sm:pb-14">
             <h2 className="font-serif text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[3rem] lg:text-[3.5rem]">
               My projects
             </h2>
@@ -186,17 +58,23 @@ export function Projects({
               From smart IoT devices to AI-powered systems, a look at the
               solutions I&rsquo;ve built for real-world problems.
             </p>
-          </div>
+          </Reveal>
         ) : null}
 
         <div className="columns-1 gap-6 md:columns-2 md:gap-7">
           {items.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <Reveal key={project.id} delay={Math.min(index * 0.05, 0.25)}>
+              <ProjectCard
+                project={project}
+                index={index}
+                onOpen={() => setActive(project)}
+              />
+            </Reveal>
           ))}
         </div>
 
         {viewMoreVisible ? (
-          <div className="mt-12 flex justify-center sm:mt-16">
+          <Reveal className="mt-12 flex justify-center sm:mt-16">
             <Link
               href="/projects"
               className="border border-foreground/8 focus-ring group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-foreground/5"
@@ -207,9 +85,17 @@ export function Projects({
                 aria-hidden="true"
               />
             </Link>
-          </div>
+          </Reveal>
         ) : null}
       </div>
+
+      <Modal
+        open={!!active}
+        onClose={() => setActive(null)}
+        title={active?.iconLabel ?? "Project"}
+      >
+        {active ? <ProjectDetail project={active} /> : null}
+      </Modal>
     </section>
   );
 }
@@ -217,17 +103,27 @@ export function Projects({
 function ProjectCard({
   project,
   index,
+  onOpen,
 }: {
-  project: Project;
+  project: ProjectContent;
   index: number;
+  onOpen: () => void;
 }): ReactNode {
-  const Icon = project.icon;
+  const Icon = ICONS[project.id] ?? Layers;
   return (
-    <div
-      className="hero-fade-in mb-6 break-inside-avoid md:mb-7"
-      style={{ animationDelay: `${Math.min(index * 0.06, 0.3)}s` }}
-    >
-      <article className="project-card flex cursor-pointer flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 sm:p-3.5">
+    <div className="mb-6 break-inside-avoid md:mb-7">
+      <article
+        role="button"
+        tabIndex={0}
+        onClick={onOpen}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen();
+          }
+        }}
+        className="project-card focus-ring flex cursor-pointer flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 transition-transform duration-300 hover:-translate-y-0.5 sm:p-3.5"
+      >
         <header className="flex items-center gap-2.5 px-1 pt-2">
           <span className="border-foreground/10 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background">
             <Icon className="h-3.5 w-3.5 text-foreground" aria-hidden="true" />
@@ -241,22 +137,16 @@ function ProjectCard({
           className="project-card__image ring-foreground/5 relative w-full overflow-hidden rounded-2xl bg-foreground/5 ring-1"
           style={{ aspectRatio: project.imageRatio }}
         >
-          <a
-            href={project.liveDemo ?? project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-card__image-inner block h-full w-full"
-            aria-label={`Open ${project.iconLabel}`}
-          >
+          <div className="project-card__image-inner relative h-full w-full">
             <Image
               src={project.image}
               alt={project.imageAlt}
               fill
               sizes="(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
-              className="object-cover transition-transform duration-500 hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
               priority={index < 2}
             />
-          </a>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2.5 px-1 pb-1">
@@ -272,32 +162,83 @@ function ProjectCard({
           <p className="text-[12px] tracking-tight text-foreground/50">
             {project.meta}
           </p>
-          {(project.liveDemo || project.github) && (
-            <div className="flex items-center gap-2">
-              {project.liveDemo && (
-                <a
-                  href={project.liveDemo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-10 text-[12px] font-medium tracking-tight text-foreground/60 hover:text-foreground transition-colors"
-                >
-                  Live Demo ↗
-                </a>
-              )}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-10 text-[12px] font-medium tracking-tight text-foreground/60 hover:text-foreground transition-colors"
-                >
-                  GitHub ↗
-                </a>
-              )}
-            </div>
-          )}
+          <span className="text-[12px] font-medium tracking-tight text-foreground/55">
+            Details ↗
+          </span>
         </div>
       </article>
+    </div>
+  );
+}
+
+function ProjectDetail({ project }: { project: ProjectContent }): ReactNode {
+  const Icon = ICONS[project.id] ?? Layers;
+  return (
+    <div className="flex flex-col gap-5">
+      <div
+        className="ring-foreground/5 relative w-full overflow-hidden rounded-2xl bg-foreground/5 ring-1"
+        style={{ aspectRatio: Math.min(project.imageRatio, 16 / 9) }}
+      >
+        <Image
+          src={project.image}
+          alt={project.imageAlt}
+          fill
+          className="object-cover"
+          sizes="(min-width: 768px) 672px, 100vw"
+        />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="border-foreground/10 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-medium text-foreground/70">
+          <Icon className="h-3 w-3" aria-hidden="true" />
+          {project.role}
+        </span>
+        <span className="border-foreground/10 rounded-full border px-3 py-1 text-[12px] font-medium text-foreground/70">
+          {project.status}
+        </span>
+      </div>
+
+      <p className="text-[16px] leading-relaxed tracking-tight text-foreground/75 sm:text-[17px]">
+        {project.detail}
+      </p>
+
+      <div className="flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <span
+            key={tag}
+            className="bg-foreground/5 text-foreground/70 rounded-full px-3 py-1 text-[12px] font-medium tracking-tight"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-3 pt-1">
+        {project.liveDemo ? (
+          <a
+            href={project.liveDemo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-ring bg-foreground text-background inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Live demo
+            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        ) : null}
+        {project.github ? (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-ring border-foreground/10 inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium text-foreground"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Github className="h-3.5 w-3.5" aria-hidden="true" />
+            GitHub
+          </a>
+        ) : null}
+      </div>
     </div>
   );
 }

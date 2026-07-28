@@ -1,6 +1,7 @@
 import { Nav } from "@/components/layout/nav";
 import { PageBackdrop } from "@/components/layout/page-backdrop";
 import { Providers } from "@/components/layout/providers";
+import { ScrollPath } from "@/components/layout/scroll-path";
 import { SkipToContent } from "@/components/layout/skip-to-content";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/seo/json-ld";
 import { baseMetadata } from "@/lib/metadata";
@@ -66,6 +67,7 @@ export default function RootLayout({
           </svg>
           <SkipToContent />
           <PageBackdrop />
+          <ScrollPath />
           <Nav />
           {children}
           <Analytics />

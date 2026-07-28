@@ -1,56 +1,40 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import { useState, type ReactNode } from "react";
 
+import { Modal } from "@/components/ui/modal";
 import { experience } from "@/lib/content";
 
-type Entry = (typeof experience)[number] & { slug?: string };
-
-const ENTRIES: Entry[] = [...experience];
-
-const COLLAPSED_COUNT = 2.5;
-const ROW_HEIGHT = 64;
-const ROW_GAP = 8;
+type Entry = (typeof experience)[number];
 
 export function Experience(): ReactNode {
-  const [open, setOpen] = useState(false);
-  const showToggle = ENTRIES.length > Math.floor(COLLAPSED_COUNT);
-  const collapsedHeight =
-    Math.floor(COLLAPSED_COUNT) * ROW_HEIGHT +
-    Math.floor(COLLAPSED_COUNT) * ROW_GAP +
-    (COLLAPSED_COUNT % 1) * ROW_HEIGHT;
-  const hiddenCount = ENTRIES.length - Math.floor(COLLAPSED_COUNT);
+  const [active, setActive] = useState<Entry | null>(null);
 
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-foreground text-[15px] font-semibold tracking-tight">
         Experience
       </h3>
-      <div
-        className={`border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative overflow-hidden rounded-4xl border px-2 pt-2 sm:px-4 sm:pt-4 ${
-          open || !showToggle ? "pb-2 sm:pb-4" : "pb-0"
-        }`}
-      >
-        <motion.div
-          className="relative"
-          initial={false}
-          animate={{
-            height: showToggle && !open ? collapsedHeight : "auto",
-          }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          style={{ overflow: "hidden" }}
-        >
-          <ul className="flex flex-col gap-2">
-            {ENTRIES.map((entry) => (
-              <li
-                key={`${entry.company}-${entry.period}`}
-                className="bg-background border-foreground/5 flex flex-col gap-2 rounded-3xl border p-4"
-                style={{ minHeight: ROW_HEIGHT }}
+      <div className="border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative rounded-4xl border p-2 sm:p-4">
+        <ul className="flex flex-col gap-2">
+          {experience.map((entry) => (
+            <li key={entry.id}>
+              <button
+                type="button"
+                onClick={() => setActive(entry)}
+                className="bg-background border-foreground/5 hover:border-foreground/15 focus-ring flex w-full cursor-pointer flex-col gap-2 rounded-3xl border p-4 text-left transition-colors"
               >
                 <div className="flex items-center gap-4">
-                  <CompanyLogo entry={entry} />
+                  <span
+                    className="inline-flex h-12 w-12 shrink-0 items-center justify-center text-[18px] font-semibold tracking-tight text-white ring-1 ring-foreground/8 dark:ring-white/10"
+                    style={{
+                      borderRadius: 14,
+                      backgroundColor: entry.brand,
+                    }}
+                    aria-hidden="true"
+                  >
+                    {entry.company.charAt(0)}
+                  </span>
                   <div className="flex min-w-0 flex-col">
                     <span className="text-foreground text-[17px] font-semibold tracking-tight sm:text-[18px]">
                       {entry.company}
@@ -62,92 +46,46 @@ export function Experience(): ReactNode {
                     </span>
                   </div>
                 </div>
-                {entry.description && (
-                  <p className="text-foreground/60 text-[13px] leading-[1.6] tracking-tight sm:text-[14px] pl-16">
-                    {entry.description}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-
-        {showToggle ? (
-          <>
-            <AnimatePresence>
-              {!open && (
-                <motion.div
-                  key="fade"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 bottom-0"
-                  style={{
-                    height: ROW_HEIGHT,
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                    maskImage:
-                      "linear-gradient(to bottom, transparent 0%, black 80%)",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, transparent 0%, black 80%)",
-                  }}
-                />
-              )}
-            </AnimatePresence>
-
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              className={`focus-ring text-foreground flex w-full cursor-pointer items-center justify-center gap-1.5 bg-transparent text-[15px] font-medium tracking-tight ${
-                open
-                  ? "relative mt-4"
-                  : "absolute inset-x-0 bottom-0 z-10 py-3 sm:py-4"
-              }`}
-            >
-              {open ? "Show less" : `Show ${hiddenCount} more`}
-              <motion.span
-                animate={{ rotate: open ? 180 : 0 }}
-                transition={{ duration: 0.25 }}
-                className="inline-flex"
-              >
-                <ChevronDown className="h-4 w-4" aria-hidden="true" />
-              </motion.span>
-            </button>
-          </>
-        ) : null}
+                <p className="text-foreground/60 line-clamp-2 pl-16 text-[13px] leading-[1.6] tracking-tight sm:text-[14px]">
+                  {entry.description}
+                </p>
+                <span className="text-foreground/45 pl-16 text-[12px] font-medium">
+                  View details ↗
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
-  );
-}
 
-function CompanyLogo({ entry }: { entry: Entry }): ReactNode {
-  const initials = entry.company.charAt(0);
-  return (
-    <span
-      className="ring-foreground/8 inline-flex h-12 w-12 shrink-0 items-center justify-center bg-white ring-1 dark:ring-white/10"
-      aria-hidden="true"
-      style={{
-        borderRadius: 14,
-        ...(entry.slug ? {} : { backgroundColor: entry.brand }),
-      }}
-    >
-      {entry.slug ? (
-        <img
-          src={`https://cdn.simpleicons.org/${entry.slug}`}
-          alt=""
-          width={24}
-          height={24}
-          className="h-6 w-6"
-          draggable={false}
-        />
-      ) : (
-        <span className="text-[18px] font-semibold tracking-tight text-white">
-          {initials}
-        </span>
-      )}
-    </span>
+      <Modal
+        open={!!active}
+        onClose={() => setActive(null)}
+        title={active?.company ?? "Experience"}
+      >
+        {active ? (
+          <div className="flex flex-col gap-4">
+            <p className="text-foreground/65 text-[15px]">
+              {active.role}
+              <span className="text-foreground/30 mx-2">•</span>
+              {active.period}
+            </p>
+            <p className="text-foreground/75 text-[16px] leading-relaxed">
+              {active.detail}
+            </p>
+            <ul className="flex flex-col gap-2">
+              {active.highlights.map((h) => (
+                <li
+                  key={h}
+                  className="bg-foreground/4 text-foreground/80 rounded-2xl px-4 py-3 text-[14px]"
+                >
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </Modal>
+    </div>
   );
 }

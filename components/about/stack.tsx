@@ -285,16 +285,25 @@ function ChipPill({ chip }: { chip: Chip }): ReactNode {
         style={{ borderRadius: `${ICON_RADIUS}px` }}
         aria-hidden="true"
       >
-        <img
-          src={chip.iconUrl ?? `https://cdn.simpleicons.org/${chip.slug}`}
-          alt=""
-          width={18}
-          height={18}
-          loading="lazy"
-          decoding="async"
-          className="h-5 w-5"
-          draggable={false}
-        />
+        {chip.monogram ? (
+          <span
+            className="text-[10px] font-bold tracking-tight"
+            style={{ color: chip.bg }}
+          >
+            {chip.monogram}
+          </span>
+        ) : (
+          <img
+            src={chip.iconUrl ?? `https://cdn.simpleicons.org/${chip.slug}`}
+            alt=""
+            width={18}
+            height={18}
+            loading="lazy"
+            decoding="async"
+            className="h-5 w-5"
+            draggable={false}
+          />
+        )}
       </span>
       <span>{chip.label}</span>
     </div>

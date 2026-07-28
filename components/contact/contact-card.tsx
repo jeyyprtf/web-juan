@@ -7,7 +7,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ContactCardCtas } from "./contact-card-ctas";
+import { ContactForm } from "./contact-form";
 import { FadeIn } from "@/components/ui/motion-primitives";
+import { profile } from "@/lib/content";
 
 const ShaderFlow = dynamic(
   () => import("../shaders/shader-flow").then((m) => m.ShaderFlow),
@@ -39,41 +41,43 @@ export function ContactCard(): ReactNode {
                 <h2 className="font-serif text-[2.25rem] font-medium leading-[1.05] tracking-tight text-foreground sm:text-[2.75rem] lg:text-[3.25rem]">
                   Let&rsquo;s connect
                 </h2>
-                <p className="max-w-[29ch] text-[18px] leading-[1.4] tracking-tight text-foreground/65 sm:text-[22px] mb-6">
-                  Feel free to reach out if you want to collaborate, discuss a project, or just say hello.
+                <p className="max-w-[36ch] text-[18px] leading-[1.4] tracking-tight text-foreground/65 sm:text-[20px]">
+                  Collaborate, discuss a project, or just say hello — form
+                  opens your email app (no backend required).
                 </p>
+                <ContactForm />
                 <ContactCardCtas />
               </div>
 
               <div className="border-foreground/8 flex flex-col items-center justify-center gap-6 rounded-[1.1rem] border bg-background p-6 sm:p-8">
-                <div className="flex items-center gap-3 opacity-75 flex-wrap justify-center">
+                <div className="flex flex-wrap items-center justify-center gap-3 opacity-75">
                   <SocialIcon
-                    href="mailto:business@juan.web.id"
+                    href={`mailto:${profile.email}`}
                     label="Email"
                     lucideIcon={Mail}
                   />
                   <SocialIcon
-                    href="https://github.com/jeyyprtf"
+                    href={profile.social.github}
                     label="GitHub"
                     imageSrc="/github.svg"
                   />
                   <SocialIcon
-                    href="https://linkedin.com/in/inijuan"
+                    href={profile.social.linkedin}
                     label="LinkedIn"
                     imageSrc="/linkedin.svg"
                   />
                   <SocialIcon
-                    href="https://instagram.com/jeyy_prtf"
+                    href={profile.social.instagram}
                     label="Instagram"
                     imageSrc="/instagram.svg"
                   />
                   <SocialIcon
-                    href="https://tiktok.com/@jeyy_prtf"
+                    href={profile.social.tiktok}
                     label="TikTok"
                     imageSrc="/tiktok.svg"
                   />
                   <SocialIcon
-                    href="https://wa.me/+6288805385353"
+                    href={`https://wa.me/${profile.whatsapp}`}
                     label="WhatsApp"
                     imageSrc="/whatsapp.svg"
                   />

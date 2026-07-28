@@ -2,47 +2,7 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type CertEntry = {
-  title: string;
-  issuer: string;
-  year: string;
-};
-
-const ENTRIES: CertEntry[] = [
-  {
-    title: "IoT Intern Program",
-    issuer: "Chickin Indonesia",
-    year: "2024",
-  },
-  {
-    title: "Expo Inovasi Vokasi (INOVAKS)",
-    issuer: "Malang State Polytechnic",
-    year: "2025",
-  },
-  {
-    title: 'Sharing Session "Independent College Student Strategy"',
-    issuer: "Anbim Yogyakarta",
-    year: "2024",
-  },
-  {
-    title: "ERP & Artificial Intelligence Future Technology Workshop",
-    issuer: "Maspion IT Surabaya (Microsoft)",
-    year: "2024",
-  },
-  {
-    title: "Industrial IoT: Modbus RTU/TCP with MQTT & Node-RED",
-    issuer: "PT Avisha Inovasi Indonesia",
-    year: "2024",
-  },
-  {
-    title: "Ardumeka Podcast Participant",
-    issuer: "PT Avisha Inovasi Indonesia",
-    year: "2025",
-  },
-];
-
-const CERTS_DRIVE_LINK =
-  "https://drive.google.com/drive/folders/1p31dzN7TkdrjkoSJEjeo_SXM9QQBFjTw?usp=sharing";
+import { certifications, profile } from "@/lib/content";
 
 const ROW_HEIGHT = 56;
 
@@ -54,7 +14,7 @@ export function Certifications(): ReactNode {
           Certifications & Courses
         </h3>
         <Link
-          href={CERTS_DRIVE_LINK}
+          href={profile.certsDrive}
           target="_blank"
           rel="noopener noreferrer"
           className="focus-ring inline-flex items-center gap-1.5 text-[13px] font-medium tracking-tight text-foreground/60 hover:text-foreground transition-colors"
@@ -65,7 +25,7 @@ export function Certifications(): ReactNode {
       </div>
       <div className="border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative rounded-4xl border p-2 sm:p-4">
         <ul className="flex flex-col gap-2">
-          {ENTRIES.map((entry) => (
+          {certifications.map((entry) => (
             <li
               key={`${entry.title}-${entry.year}`}
               className="bg-background border-foreground/5 flex items-center gap-4 rounded-3xl border px-4 py-3"

@@ -1,19 +1,6 @@
 import type { ReactNode } from "react";
 
-type Entry = {
-  school: string;
-  degree: string;
-  period: string;
-  slug?: string;
-};
-
-const ENTRIES: Entry[] = [
-  {
-    school: "SMKN 1 Kademangan",
-    degree: "Computer Network & Telecommunications Engineering",
-    period: "2022 – 2025",
-  },
-];
+import { education } from "@/lib/content";
 
 const ROW_HEIGHT = 64;
 
@@ -25,13 +12,19 @@ export function Education(): ReactNode {
       </h3>
       <div className="border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative rounded-4xl border p-2 sm:p-4">
         <ul className="flex flex-col gap-2">
-          {ENTRIES.map((entry) => (
+          {education.map((entry) => (
             <li
               key={`${entry.school}-${entry.period}`}
               className="bg-background border-foreground/5 flex items-center gap-4 rounded-3xl border p-2"
               style={{ minHeight: ROW_HEIGHT }}
             >
-              <SchoolLogo entry={entry} />
+              <span
+                className="border-foreground/15 text-foreground/60 inline-flex h-12 w-12 shrink-0 items-center justify-center border text-[18px] font-semibold tracking-tight"
+                aria-hidden="true"
+                style={{ borderRadius: 14 }}
+              >
+                {entry.school.charAt(0)}
+              </span>
               <div className="flex min-w-0 flex-col">
                 <span className="text-foreground text-[17px] font-semibold tracking-tight sm:text-[18px]">
                   {entry.school}
@@ -47,31 +40,5 @@ export function Education(): ReactNode {
         </ul>
       </div>
     </div>
-  );
-}
-
-function SchoolLogo({ entry }: { entry: Entry }): ReactNode {
-  const initials = entry.school.charAt(0);
-  return (
-    <span
-      className="border-foreground/15 inline-flex h-12 w-12 shrink-0 items-center justify-center border"
-      aria-hidden="true"
-      style={{ borderRadius: 14 }}
-    >
-      {entry.slug ? (
-        <img
-          src={`https://cdn.simpleicons.org/${entry.slug}`}
-          alt=""
-          width={24}
-          height={24}
-          className="h-6 w-6"
-          draggable={false}
-        />
-      ) : (
-        <span className="text-foreground/60 text-[18px] font-semibold tracking-tight">
-          {initials}
-        </span>
-      )}
-    </span>
   );
 }

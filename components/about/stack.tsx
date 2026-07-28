@@ -3,32 +3,9 @@
 import { RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-type Chip = {
-  label: string;
-  slug: string;
-  bg: string;
-  fg: string;
-  iconUrl?: string;
-};
+import { stack as CHIPS, type StackChip } from "@/lib/content";
 
-const CHIPS: Chip[] = [
-  { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
-  { label: "TypeScript", slug: "typescript", bg: "#3178C6", fg: "#ffffff" },
-  { label: "JavaScript", slug: "javascript", bg: "#F7DF1E", fg: "#0a0a0a" },
-  { label: "Next.js", slug: "nextdotjs", bg: "#000000", fg: "#ffffff" },
-  { label: "React", slug: "react", bg: "#1FB6CB", fg: "#ffffff" },
-  { label: "Node.js", slug: "nodedotjs", bg: "#339933", fg: "#ffffff" },
-  { label: "FastAPI", slug: "fastapi", bg: "#009688", fg: "#ffffff" },
-  { label: "Express", slug: "express", bg: "#1f1f1f", fg: "#ffffff" },
-  { label: "Tailwind CSS", slug: "tailwindcss", bg: "#2BBCF5", fg: "#ffffff" },
-  { label: "PostgreSQL", slug: "postgresql", bg: "#4169E1", fg: "#ffffff" },
-  { label: "Supabase", slug: "supabase", bg: "#3ECF8E", fg: "#0a0a0a" },
-  { label: "Docker", slug: "docker", bg: "#2496ED", fg: "#ffffff" },
-  { label: "MQTT", slug: "mqtt", bg: "#660066", fg: "#ffffff" },
-  { label: "Arduino", slug: "arduino", bg: "#00878F", fg: "#ffffff" },
-  { label: "Git", slug: "git", bg: "#F05032", fg: "#ffffff" },
-  { label: "GitHub", slug: "github", bg: "#181717", fg: "#ffffff" },
-];
+type Chip = StackChip;
 
 const CHIP_RADIUS = 14;
 const ICON_RADIUS = 10;
@@ -42,12 +19,31 @@ type ChipState = {
 };
 
 export function Stack(): ReactNode {
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const measureRef = useRef<HTMLDivElement | null>(null);
   const chipRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [resetKey, setResetKey] = useState(0);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setActive(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "120px", threshold: 0.05 }
+    );
+    io.observe(root);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!active) return;
     const container = containerRef.current;
     const measure = measureRef.current;
     if (!container || !measure) return;
@@ -208,10 +204,10 @@ export function Stack(): ReactNode {
       cancelled = true;
       cleanup?.();
     };
-  }, [resetKey]);
+  }, [resetKey, active]);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div ref={rootRef} className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
         <h3 className="text-foreground text-[15px] font-semibold tracking-tight">
           Stack
@@ -242,25 +238,33 @@ export function Stack(): ReactNode {
           ))}
         </div>
 
-        <div
-          ref={containerRef}
-          className="absolute inset-0 cursor-grab select-none"
-          style={{ touchAction: "none" }}
-        >
-          {CHIPS.map((chip, i) => (
-            <div
-              key={`${resetKey}-${chip.label}`}
-              ref={(el) => {
-                chipRefs.current[i] = el;
-              }}
-              data-stack-chip
-              className="pointer-events-none absolute top-0 left-0 will-change-transform"
-              style={{ transform: "translate3d(-9999px, -9999px, 0)" }}
-            >
-              <ChipPill chip={chip} />
-            </div>
-          ))}
-        </div>
+        {!active ? (
+          <div className="absolute inset-0 flex flex-wrap content-center justify-center gap-2 p-4 opacity-80">
+            {CHIPS.slice(0, 8).map((chip) => (
+              <ChipPill key={`s-${chip.label}`} chip={chip} />
+            ))}
+          </div>
+        ) : (
+          <div
+            ref={containerRef}
+            className="absolute inset-0 cursor-grab select-none"
+            style={{ touchAction: "none" }}
+          >
+            {CHIPS.map((chip, i) => (
+              <div
+                key={`${resetKey}-${chip.label}`}
+                ref={(el) => {
+                  chipRefs.current[i] = el;
+                }}
+                data-stack-chip
+                className="pointer-events-none absolute top-0 left-0 will-change-transform"
+                style={{ transform: "translate3d(-9999px, -9999px, 0)" }}
+              >
+                <ChipPill chip={chip} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

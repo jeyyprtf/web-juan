@@ -1,16 +1,6 @@
 import type { ReactNode } from "react";
 
-const SKILLS = [
-  "AI Systems & Agents",
-  "AI Automation",
-  "AI Assistants",
-  "AIoT & Edge AI",
-  "Full Stack Development",
-  "API & Backend Services",
-  "IoT & Embedded Systems",
-  "Industrial Sensors / Modbus",
-  "Smart Infrastructure",
-];
+import { skills } from "@/lib/content";
 
 export function Skills(): ReactNode {
   return (
@@ -20,7 +10,7 @@ export function Skills(): ReactNode {
       </h3>
       <div className="rounded-4xl border border-foreground/5 bg-foreground/2 p-2 sm:p-4 dark:bg-foreground/5">
         <div className="flex flex-wrap gap-3">
-          {SKILLS.map((skill) => (
+          {skills.map((skill) => (
             <span
               key={skill}
               className="rounded-full border border-foreground/8 bg-background px-4 py-2 text-[14px] tracking-tight text-foreground/85 sm:text-[15px]"

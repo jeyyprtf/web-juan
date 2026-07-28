@@ -4,6 +4,8 @@ import { Providers } from "@/components/layout/providers";
 import { SkipToContent } from "@/components/layout/skip-to-content";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/seo/json-ld";
 import { baseMetadata } from "@/lib/metadata";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
@@ -66,6 +68,8 @@ export default function RootLayout({
           <PageBackdrop />
           <Nav />
           {children}
+          <Analytics />
+          <SpeedInsights />
         </Providers>
       </body>
     </html>

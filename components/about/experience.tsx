@@ -4,25 +4,11 @@ import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, type ReactNode } from "react";
 
-type Entry = {
-  company: string;
-  role: string;
-  period: string;
-  description?: string;
-  slug?: string;
-  brand?: string;
-};
+import { experience } from "@/lib/content";
 
-const ENTRIES: Entry[] = [
-  {
-    company: "Chickin Indonesia",
-    role: "AIoT Intern",
-    period: "2024",
-    description:
-      "Deepened understanding of AI and IoT in industry while actively deploying and implementing solutions on-site. Designed and developed a portable sensor configuration tool. Served as PIC for AI-based detection technology deployment in partner rural livestock farms.",
-    brand: "#FF6B35",
-  },
-];
+type Entry = (typeof experience)[number] & { slug?: string };
+
+const ENTRIES: Entry[] = [...experience];
 
 const COLLAPSED_COUNT = 2.5;
 const ROW_HEIGHT = 64;

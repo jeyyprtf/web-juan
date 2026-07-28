@@ -32,7 +32,7 @@ export default function AboutPage(): ReactNode {
             </h1>
             <div className="mt-8 space-y-6 text-[17px] leading-[1.7] tracking-tight text-foreground/75 sm:text-[18px]">
               <p>
-                I&rsquo;m an <strong className="font-semibold text-foreground">AI Specialist & Engineer</strong> who builds things that actually work in the real world — not just demos or theory.
+                I&rsquo;m an <strong className="font-semibold text-foreground">AI Specialist & Engineer</strong> and Business Information Systems student at <strong className="font-semibold text-foreground">Politeknik Negeri Malang</strong> — building things that work in the real world, not just demos.
               </p>
               <p>
                 My work sits at the intersection of <strong className="font-semibold text-foreground">AI, automation, and IoT</strong>: assistants, intelligent services, and field-ready AIoT. From portable sensor tools for technicians to AI detection deployments in rural farming, I focus on tech that <strong className="font-semibold text-foreground">solves real problems for real people</strong>.

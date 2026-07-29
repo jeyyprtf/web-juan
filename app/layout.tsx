@@ -1,3 +1,4 @@
+import { ChatWidget } from "@/components/chat/chat-widget";
 import { Nav } from "@/components/layout/nav";
 import { PageBackdrop } from "@/components/layout/page-backdrop";
 import { Providers } from "@/components/layout/providers";
@@ -70,6 +71,7 @@ export default function RootLayout({
           <ScrollPath />
           <Nav />
           {children}
+          <ChatWidget />
           <Analytics />
           <SpeedInsights />
         </Providers>

@@ -5,7 +5,8 @@ export const runtime = "nodejs";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const BASE = process.env.JUAN_LLM_BASE ?? "https://tunnel.juan.web.id/v1";
+// ponytail: no URL/key defaults in source — Netlify secrets scan flags them
+const BASE = process.env.JUAN_LLM_BASE ?? "";
 const KEY = process.env.JUAN_LLM_KEY ?? "";
 const MODEL = process.env.JUAN_LLM_MODEL ?? "jrs/gemma-4-31b-it";
 
@@ -27,9 +28,9 @@ function rateLimit(ip: string): boolean {
 }
 
 export async function POST(req: Request): Promise<Response> {
-  if (!KEY) {
+  if (!KEY || !BASE) {
     return NextResponse.json(
-      { error: "Chat not configured (missing JUAN_LLM_KEY)" },
+      { error: "Chat not configured (missing JUAN_LLM_KEY or JUAN_LLM_BASE)" },
       { status: 503 }
     );
   }

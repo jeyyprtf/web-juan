@@ -20,11 +20,17 @@ export const metadata: Metadata = createMetadata({
 export default function AboutPage(): ReactNode {
   return (
     <main id="main-content" className="flex flex-1 flex-col">
-      <section className="mx-auto w-full max-w-312 pt-40 sm:pt-56">
+      <section
+        className="relative z-10 mx-auto w-full max-w-312 pt-40 sm:pt-56"
+        data-journey="Story"
+      >
         <PolaroidStrip />
       </section>
 
-      <section className="mx-auto w-full max-w-160 px-6 pt-20 pb-16 sm:px-10 sm:pt-28 sm:pb-24">
+      <section
+        className="relative z-10 mx-auto w-full max-w-160 px-6 pt-20 pb-16 sm:px-10 sm:pt-28 sm:pb-24"
+        data-journey="Story"
+      >
         <Reveal>
           <div className="rounded-4xl border border-foreground/5 bg-foreground/1.5 p-8 sm:p-12 dark:bg-foreground/3">
             <h1 className="font-serif text-[1.75rem] font-medium tracking-tight text-foreground sm:text-[2rem]">
@@ -70,7 +76,10 @@ export default function AboutPage(): ReactNode {
         </Reveal>
       </section>
 
-      <section className="mx-auto w-full max-w-[40rem] px-6 pb-20 sm:px-10 sm:pb-28">
+      <section
+        className="relative z-10 mx-auto w-full max-w-[40rem] px-6 pb-20 sm:px-10 sm:pb-28"
+        data-journey="Background"
+      >
         <div className="flex flex-col gap-10">
           <Reveal>
             <Experience />
@@ -82,10 +91,14 @@ export default function AboutPage(): ReactNode {
             <Certifications />
           </Reveal>
           <Reveal delay={0.05}>
-            <Skills />
+            <div data-journey="Stack">
+              <Skills />
+            </div>
           </Reveal>
           <Reveal delay={0.05}>
-            <Stack />
+            <div data-journey="Stack">
+              <Stack />
+            </div>
           </Reveal>
         </div>
       </section>

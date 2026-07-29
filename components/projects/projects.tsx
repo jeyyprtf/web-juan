@@ -47,7 +47,10 @@ export function Projects({
   const [active, setActive] = useState<ProjectContent | null>(null);
 
   return (
-    <section className="relative w-full">
+    <section
+      className="relative z-10 w-full"
+      data-journey={withHeadline ? "Projects" : "My work"}
+    >
       <div className="mx-auto w-full max-w-275 px-6 sm:px-10">
         {withHeadline ? (
           <Reveal className="flex flex-col items-center gap-5 pt-12 pb-10 text-center sm:pt-20 sm:pb-14">

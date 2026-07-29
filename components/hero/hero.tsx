@@ -16,7 +16,7 @@ const PortraitMorph = dynamic(
 
 export function Hero(): ReactNode {
   return (
-    <section className="relative w-full">
+    <section className="relative z-10 w-full" data-journey="About me">
       <div className="mx-auto w-full max-w-275 px-6 pt-44 pb-24 sm:px-10 sm:pt-56 sm:pb-32">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-8">
           <div className="hero-fade-in flex flex-col gap-4">

@@ -21,7 +21,10 @@ const CARD_FADE_MASK =
 
 export function ContactCard(): ReactNode {
   return (
-    <section className="mx-auto my-12 w-full max-w-275 px-6 sm:my-20 sm:px-10">
+    <section
+      className="relative z-10 mx-auto my-12 w-full max-w-275 px-6 sm:my-20 sm:px-10"
+      data-journey="Let's connect"
+    >
       <Reveal>
         <div className="relative w-full overflow-hidden rounded-4xl border border-foreground/8 bg-background p-1.5 shadow-sm">
           <div className="relative w-full overflow-hidden rounded-[1.6rem]">

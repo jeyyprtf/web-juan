@@ -25,16 +25,85 @@ const SUGGESTIONS = [
   "Cara kontak?",
 ] as const;
 
+function stripThink(text: string): string {
+  return text
+    .replace(/<think>[\s\S]*?<\/think>/gi, "")
+    .replace(/```thinking[\s\S]*?```/gi, "")
+    .trim();
+}
+
+async function readChatStream(
+  res: Response,
+  onToken: (t: string) => void
+): Promise<string> {
+  const ct = res.headers.get("content-type") ?? "";
+
+  // JSON fallback (non-stream)
+  if (ct.includes("application/json")) {
+    const data = (await res.json()) as { message?: string; error?: string };
+    const msg = stripThink(data.message || data.error || "");
+    if (msg) onToken(msg);
+    return msg;
+  }
+
+  if (!res.body) {
+    throw new Error("No body");
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let full = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() ?? "";
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith("data:")) continue;
+      const raw = trimmed.slice(5).trim();
+      if (!raw) continue;
+      try {
+        const ev = JSON.parse(raw) as {
+          type?: string;
+          text?: string;
+        };
+        if (ev.type === "token" && ev.text) {
+          full += ev.text;
+          onToken(stripThink(full));
+        }
+        if (ev.type === "error" && ev.text) {
+          throw new Error(ev.text);
+        }
+      } catch (e) {
+        if (e instanceof Error && e.message !== "Unexpected end of JSON input") {
+          if (e.message.includes("Stream") || e.message.includes("terputus")) {
+            throw e;
+          }
+        }
+      }
+    }
+  }
+
+  return stripThink(full);
+}
+
 export function ChatWidget(): ReactNode {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([
     { role: "assistant", content: WELCOME },
   ]);
   const listRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const titleId = useId();
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -46,7 +115,7 @@ export function ChatWidget(): ReactNode {
     });
     inputRef.current?.focus();
     return () => cancelAnimationFrame(id);
-  }, [open, messages, loading]);
+  }, [open, messages, loading, streaming]);
 
   useEffect(() => {
     if (!open) return;
@@ -60,44 +129,91 @@ export function ChatWidget(): ReactNode {
   const sendText = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed || loading) return;
-      const next: ChatMsg[] = [
+      if (!trimmed || loading || streaming) return;
+
+      abortRef.current?.abort();
+      const ac = new AbortController();
+      abortRef.current = ac;
+
+      const history: ChatMsg[] = [
         ...messages,
         { role: "user", content: trimmed },
       ];
-      setMessages(next);
+      setMessages(history);
       setInput("");
       setLoading(true);
+      setStreaming(false);
+
+      // Placeholder assistant bubble for live tokens
+      setMessages((m) => [...m, { role: "assistant", content: "" }]);
+
       try {
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            messages: next.filter((m) => m.content !== WELCOME),
+            stream: true,
+            messages: history.filter((m) => m.content !== WELCOME),
           }),
+          signal: ac.signal,
         });
-        const data = (await res.json()) as {
-          message?: string;
-          error?: string;
-        };
-        const reply =
-          data.message ||
-          data.error ||
-          "Maaf, gagal jawab. Coba lagi sebentar.";
-        setMessages((m) => [...m, { role: "assistant", content: reply }]);
-      } catch {
-        setMessages((m) => [
-          ...m,
-          {
-            role: "assistant",
-            content: "Koneksi error. Coba lagi ya.",
-          },
-        ]);
+
+        if (!res.ok) {
+          const data = (await res.json().catch(() => ({}))) as {
+            error?: string;
+          };
+          throw new Error(
+            data.error || "Maaf, gagal jawab. Coba lagi sebentar."
+          );
+        }
+
+        setLoading(false);
+        setStreaming(true);
+
+        const final = await readChatStream(res, (partial) => {
+          setMessages((m) => {
+            const copy = [...m];
+            const last = copy[copy.length - 1];
+            if (last?.role === "assistant") {
+              copy[copy.length - 1] = { role: "assistant", content: partial };
+            }
+            return copy;
+          });
+        });
+
+        if (!final) {
+          setMessages((m) => {
+            const copy = [...m];
+            copy[copy.length - 1] = {
+              role: "assistant",
+              content:
+                "Maaf, aku lagi blank. Coba tanya lagi soal Juan, project, atau kontak ya.",
+            };
+            return copy;
+          });
+        }
+      } catch (e) {
+        if (e instanceof Error && e.name === "AbortError") return;
+        const msg =
+          e instanceof Error
+            ? e.message
+            : "Koneksi error. Coba lagi ya.";
+        setMessages((m) => {
+          const copy = [...m];
+          const last = copy[copy.length - 1];
+          if (last?.role === "assistant" && !last.content) {
+            copy[copy.length - 1] = { role: "assistant", content: msg };
+          } else {
+            copy.push({ role: "assistant", content: msg });
+          }
+          return copy;
+        });
       } finally {
         setLoading(false);
+        setStreaming(false);
       }
     },
-    [loading, messages]
+    [loading, streaming, messages]
   );
 
   const onSubmit = (e: FormEvent): void => {
@@ -106,7 +222,12 @@ export function ChatWidget(): ReactNode {
   };
 
   const showSuggestions =
-    messages.length <= 1 && !loading && messages[0]?.content === WELCOME;
+    messages.length <= 1 &&
+    !loading &&
+    !streaming &&
+    messages[0]?.content === WELCOME;
+
+  const busy = loading || streaming;
 
   return (
     <div className="pointer-events-none fixed right-4 bottom-4 z-[110] flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
@@ -140,7 +261,9 @@ export function ChatWidget(): ReactNode {
                     JuanBot
                   </p>
                   <p className="text-foreground/50 text-[11px] tracking-tight">
-                    AI assistant · portfolio
+                    {streaming
+                      ? "Mengetik…"
+                      : "AI assistant · portfolio"}
                   </p>
                 </div>
               </div>
@@ -159,24 +282,38 @@ export function ChatWidget(): ReactNode {
               className="flex max-h-[min(52vh,22rem)] min-h-52 flex-col gap-2.5 overflow-y-auto px-3 py-3"
             >
               <AnimatePresence initial={false}>
-                {messages.map((m, i) => (
-                  <motion.div
-                    key={`${i}-${m.role}-${m.content.slice(0, 12)}`}
-                    initial={{ opacity: 0, y: 10, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.32, ease: EASE }}
-                    className={
-                      m.role === "user"
-                        ? "bg-foreground text-background ml-8 rounded-2xl rounded-br-md px-3.5 py-2.5 text-[13px] leading-relaxed tracking-tight"
-                        : "bg-foreground/5 text-foreground/85 border-foreground/6 mr-5 rounded-2xl rounded-bl-md border px-3.5 py-2.5 text-[13px] leading-relaxed tracking-tight"
-                    }
-                  >
-                    <p className="whitespace-pre-wrap">{m.content}</p>
-                  </motion.div>
-                ))}
+                {messages.map((m, i) => {
+                  const isLast = i === messages.length - 1;
+                  const emptyStream =
+                    isLast &&
+                    m.role === "assistant" &&
+                    !m.content &&
+                    (loading || streaming);
+                  if (emptyStream) return null;
+                  return (
+                    <motion.div
+                      key={`${i}-${m.role}`}
+                      initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ duration: 0.28, ease: EASE }}
+                      className={
+                        m.role === "user"
+                          ? "bg-foreground text-background ml-8 rounded-2xl rounded-br-md px-3.5 py-2.5 text-[13px] leading-relaxed tracking-tight"
+                          : "bg-foreground/5 text-foreground/85 border-foreground/6 mr-5 rounded-2xl rounded-bl-md border px-3.5 py-2.5 text-[13px] leading-relaxed tracking-tight"
+                      }
+                    >
+                      <p className="whitespace-pre-wrap">
+                        {m.content}
+                        {isLast && streaming && m.role === "assistant" ? (
+                          <span className="bg-foreground/50 ml-0.5 inline-block h-3 w-0.5 animate-pulse align-middle" />
+                        ) : null}
+                      </p>
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
 
-              {loading ? (
+              {loading && !streaming ? (
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -228,13 +365,13 @@ export function ChatWidget(): ReactNode {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Tanya tentang Juan…"
-                maxLength={2000}
-                disabled={loading}
+                maxLength={1200}
+                disabled={busy}
                 className="focus-ring text-foreground placeholder:text-foreground/35 bg-foreground/[0.03] border-foreground/8 h-11 min-w-0 flex-1 rounded-xl border px-3.5 text-[13px] tracking-tight outline-none transition-colors"
               />
               <motion.button
                 type="submit"
-                disabled={loading || !input.trim()}
+                disabled={busy || !input.trim()}
                 whileTap={{ scale: 0.92 }}
                 className="focus-ring bg-foreground text-background inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Send"

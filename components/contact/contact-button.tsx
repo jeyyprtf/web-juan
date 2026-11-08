@@ -6,11 +6,13 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 
 import { profile } from "@/lib/content";
+import { useLanguage } from "@/lib/language";
 
 const EMAIL = profile.email;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function ContactButton(): ReactNode {
+  const language = useLanguage();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -45,7 +47,7 @@ export function ContactButton(): ReactNode {
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
       aria-label={
-        copied ? "Email copied" : open ? `Copy ${EMAIL}` : "Show email"
+        copied ? (language === "id" ? "Email disalin" : "Email copied") : open ? (language === "id" ? `Salin ${EMAIL}` : `Copy ${EMAIL}`) : (language === "id" ? "Tampilkan email" : "Show email")
       }
       transition={{ layout: { duration: 0.55, ease: EASE } }}
       style={{ borderRadius: 12 }}
@@ -106,7 +108,7 @@ export function ContactButton(): ReactNode {
               className="inline-flex items-center gap-2 whitespace-nowrap"
             >
               <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>Contact</span>
+              <span>{language === "id" ? "Kontak" : "Contact"}</span>
             </motion.span>
           )}
         </AnimatePresence>

@@ -1,10 +1,12 @@
 export const profile = {
   name: "Juan",
   fullName: "Juan Madhy",
-  title: "AI Specialist & Engineer",
-  tagline: "Independent engineer focused and obsessed with anything about AI.",
+  title: "Founder of JuanRouter",
+  companyUrl: "https://juanrouter.com",
+  tagline:
+    "Building and running JuanRouter, a multi-model AI platform for Indonesia.",
   motto: "Smart systems should empower people — not complicate their lives.",
-  email: "business@juan.web.id",
+  email: "business@juanrouter.com",
   whatsapp: "+6288805385353",
   location: "Malang, Indonesia",
   url: "https://juan.web.id",
@@ -21,6 +23,38 @@ export const profile = {
 } as const;
 
 export const experience = [
+  {
+    id: "juanrouter",
+    company: "JuanRouter",
+    role: "Solo Founder & Product Engineer",
+    period: "Jul 2026 – Present",
+    description:
+      "Founded and operate a multi-model AI platform for Indonesian users. Own product strategy, engineering, payments, pricing, operations, marketing, and community building.",
+    detail:
+      "Built the product around open-source new-api and LibreChat, connecting API access, usage-based billing, Rupiah checkout, subscriptions, and automated fulfillment. I run the business and infrastructure, create product content, manage the Telegram community, and built its AI Helper Bot. Codex and Claude Code assist development; product decisions and operations remain my responsibility.",
+    highlights: [
+      "Multi-model API access and usage-based billing",
+      "Rupiah payments and automated credit fulfillment",
+      "Product marketing, Telegram community, and AI user support",
+    ],
+    brand: "#166534",
+  },
+  {
+    id: "sakura",
+    company: "Sakura Minecraft Server",
+    role: "Founder & Game Systems Developer",
+    period: "Jun 2026 – Present",
+    description:
+      "Founded and develop a Minecraft server combining custom multiplayer modes, four Java plugins, an in-game AI assistant, and AI-assisted building and Build Battle judging.",
+    detail:
+      "Design gameplay and develop Java/Skript systems alongside third-party plugins. My work covers match queues, arena ownership, virtual-currency escrow, AI workflows, and Linux cloud operations. I also handle deployment, backups, world migrations, and player-data recovery.",
+    highlights: [
+      "SakuraAI, SakuraBuildBattle, SakuraGames, and SakuraVoiceAuth",
+      "Multimodal AI workflows with validated output",
+      "Multiplayer lifecycle, data recovery, and cloud operations",
+    ],
+    brand: "#9D4665",
+  },
   {
     id: "chickin",
     company: "Chickin Indonesia",
@@ -111,6 +145,18 @@ export const certifications = [
 
 export const skills = [
   {
+    id: "product-ownership",
+    label: "Product Engineering & Operations",
+    detail:
+      "Taking a product from idea to daily operation: engineering, pricing, payments, deployment, marketing, and community support through JuanRouter.",
+  },
+  {
+    id: "game-systems",
+    label: "Multiplayer & Game Systems",
+    detail:
+      "Java and Skript plugins, match state machines, arena ownership, recoverable virtual-currency transactions, and AI workflows for Sakura Minecraft Server.",
+  },
+  {
     id: "ai-systems",
     label: "AI Systems & Agents",
     detail:
@@ -179,18 +225,39 @@ export const stack: StackChip[] = [
   { label: "Python", slug: "python", bg: "#3776AB", fg: "#ffffff" },
   { label: "TypeScript", slug: "typescript", bg: "#3178C6", fg: "#ffffff" },
   { label: "JavaScript", slug: "javascript", bg: "#F7DF1E", fg: "#0a0a0a" },
+  { label: "Java", slug: "java", bg: "#B45309", fg: "#ffffff", monogram: "JV" },
   { label: "Next.js", slug: "nextdotjs", bg: "#000000", fg: "#ffffff" },
   { label: "React", slug: "react", bg: "#1FB6CB", fg: "#ffffff" },
   { label: "Node.js", slug: "nodedotjs", bg: "#339933", fg: "#ffffff" },
   { label: "FastAPI", slug: "fastapi", bg: "#009688", fg: "#ffffff" },
   { label: "Express", slug: "express", bg: "#1f1f1f", fg: "#ffffff" },
-  { label: "Claude Code", slug: "anthropic", bg: "#D97757", fg: "#ffffff", monogram: "CC" },
-  { label: "OpenCode", slug: "opencode", bg: "#0A0A0A", fg: "#ffffff", monogram: "OC" },
-  { label: "Codex", slug: "openai", bg: "#10A37F", fg: "#ffffff", monogram: "CX" },
+  {
+    label: "Claude Code",
+    slug: "anthropic",
+    bg: "#D97757",
+    fg: "#ffffff",
+    monogram: "CC",
+  },
+  {
+    label: "OpenCode",
+    slug: "opencode",
+    bg: "#0A0A0A",
+    fg: "#ffffff",
+    monogram: "OC",
+  },
+  {
+    label: "Codex",
+    slug: "openai",
+    bg: "#10A37F",
+    fg: "#ffffff",
+    monogram: "CX",
+  },
   { label: "Tailwind CSS", slug: "tailwindcss", bg: "#2BBCF5", fg: "#ffffff" },
   { label: "PostgreSQL", slug: "postgresql", bg: "#4169E1", fg: "#ffffff" },
   { label: "Supabase", slug: "supabase", bg: "#3ECF8E", fg: "#0a0a0a" },
   { label: "Docker", slug: "docker", bg: "#2496ED", fg: "#ffffff" },
+  { label: "SQLite", slug: "sqlite", bg: "#003B57", fg: "#ffffff" },
+  { label: "Linux", slug: "linux", bg: "#333333", fg: "#ffffff" },
   { label: "MQTT", slug: "mqtt", bg: "#660066", fg: "#ffffff" },
   { label: "Arduino", slug: "arduino", bg: "#00878F", fg: "#ffffff" },
   { label: "Git", slug: "git", bg: "#F05032", fg: "#ffffff" },
@@ -212,9 +279,64 @@ export type ProjectContent = {
   tags: string[];
   liveDemo?: string;
   github?: string;
+  highlights?: string[];
+  links?: { label: string; href: string }[];
 };
 
 export const projects: ProjectContent[] = [
+  {
+    id: "juanrouter",
+    iconLabel: "JuanRouter",
+    title: "Multi-model AI access, from API integration to payments in Rupiah.",
+    description:
+      "Founded and operate an AI platform connecting a multi-model gateway, usage-based billing, local checkout, and automated fulfillment — alongside marketing and a Telegram community.",
+    detail:
+      "JuanRouter helps Indonesian developers and AI users access third-party models through API clients or chat. As the solo founder, I own product strategy, engineering, pricing, operations, marketing, content, and community. The gateway and chat build on new-api and LibreChat, with Codex and Claude Code assisting development.",
+    highlights: [
+      "Juan Topup: Midtrans checkout in Rupiah, PAYG vouchers, subscriptions, invoices, and automated fulfillment.",
+      "A prepaid Rupiah wallet, affiliate attribution, and community credit pools; the wallet is separate from Router AI credits.",
+      "Juan Chat uses each user's own Router key. Router, Topup, and Chat keep separate accounts.",
+      "Payment verification, transaction receipts, and recovery workflows for retries and uncertain fulfillment results.",
+      "A Telegram AI Helper Bot using product documentation and relevant service data for user support.",
+    ],
+    meta: "Solo Founder & Product Engineer • Live",
+    role: "Solo Founder & Product Engineer",
+    status: "Live",
+    imageRatio: 1440 / 1000,
+    image: "/projects/juanrouter.webp",
+    imageAlt:
+      "Juan Topup storefront with AI credit packages and Rupiah checkout for JuanRouter",
+    tags: ["AI Platform", "API Gateway", "Node.js", "SQLite", "Midtrans"],
+    liveDemo: "https://juanrouter.com",
+    links: [
+      { label: "Juan Topup", href: "https://topup.juanrouter.com" },
+      { label: "Juan Chat", href: "https://chat.juan.web.id" },
+    ],
+  },
+  {
+    id: "sakura",
+    iconLabel: "Sakura",
+    title: "A Minecraft server where multiplayer systems meet multimodal AI.",
+    description:
+      "Built custom game modes and four Java plugins, with AI-assisted building, vision-based Build Battle judging, and shared match and virtual-economy systems.",
+    detail:
+      "I founded and develop Sakura, combining Java and Skript gameplay with third-party plugins on Paper. My work spans game design, AI integration, multiplayer state, and Linux cloud operations. Its four custom Java plugins are SakuraAI, SakuraBuildBattle, SakuraGames, and SakuraVoiceAuth.",
+    highlights: [
+      "SakuraAI turns text or reference images into validated block plans, with admin confirmation, batched execution, and temporary undo.",
+      "Build Battle snapshots plots, renders five views in a Python/Chunky pipeline, and validates vision-model scores before publishing results.",
+      "SakuraGames coordinates queues, ready checks, exclusive arena ownership, and recoverable virtual-currency escrow.",
+      "Custom gameplay includes PvP, ice boat racing, parkour, progression, and economy, alongside integrated Survival and OneBlock modes.",
+      "Operations include deployment, verified off-host backups, world migration, and selective player-data recovery.",
+    ],
+    meta: "Founder & Game Systems Developer • Ongoing",
+    role: "Founder & Game Systems Developer",
+    status: "Ongoing",
+    imageRatio: 16 / 10,
+    image: "/projects/sakura.svg",
+    imageAlt:
+      "Sakura architecture overview connecting Java plugins, multiplayer systems, and AI workers",
+    tags: ["Java", "Python", "Skript", "Multimodal AI", "Linux"],
+  },
   {
     id: "tfe-erp",
     iconLabel: "TFE ERP",

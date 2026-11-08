@@ -7,10 +7,12 @@ import type { ReactNode } from "react";
 
 import { ContactButton } from "@/components/contact/contact-button";
 import { profile } from "@/lib/content";
+import { useLanguage } from "@/lib/language";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function HeroCtas(): ReactNode {
+  const language = useLanguage();
   return (
     <LayoutGroup>
       <motion.div
@@ -36,7 +38,7 @@ export function HeroCtas(): ReactNode {
             href="/projects"
             className="border border-foreground/5 focus-ring group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-background px-5 py-2.5 text-sm font-medium text-foreground shadow-2xl transition-colors hover:bg-foreground/4"
           >
-            View Projects
+            {language === "id" ? "Lihat Proyek" : "View Projects"}
             <ArrowRight
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
               aria-hidden="true"
@@ -52,7 +54,7 @@ export function HeroCtas(): ReactNode {
               className="h-4 w-4"
               aria-hidden="true"
             />
-            Download CV
+            {language === "id" ? "Unduh CV" : "Download CV"}
           </a>
         </motion.div>
       </motion.div>

@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import type { ReactNode } from "react";
 
+import { profile } from "@/lib/content";
+import { useLanguage } from "@/lib/language";
 import { HeroCtas } from "./hero-ctas";
 
 const PORTRAIT_SRC = "/juan.webp";
@@ -15,28 +17,33 @@ const PortraitMorph = dynamic(
 );
 
 export function Hero(): ReactNode {
+  const language = useLanguage();
   return (
     <section className="relative z-10 w-full" data-journey="About me">
       <div className="mx-auto w-full max-w-275 px-6 pt-44 pb-24 sm:px-10 sm:pt-56 sm:pb-32">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-8">
           <div className="hero-fade-in flex flex-col gap-4">
             <p className="text-[20px] leading-tight tracking-tight font-medium text-foreground">
-              Hey
+              {language === "id" ? "Halo" : "Hey"}
               <span aria-hidden="true" className="mx-0.5">
                 👋
               </span>
-              , I&rsquo;m Juan
+              {language === "id" ? ", saya Juan" : ", I’m Juan"}
             </p>
 
             <h1 className="text-[2.75rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[2.5rem] lg:text-[3.65rem]">
-              <span className="block whitespace-nowrap">
-                AI Engineer &
-              </span>
-              <span className="block whitespace-nowrap">Specialist</span>
+              <a
+                href={profile.companyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="focus-ring rounded-sm"
+              >
+                {language === "id" ? "Pendiri JuanRouter" : profile.title}
+              </a>
             </h1>
 
             <p className="max-w-[34ch] text-[22px] leading-[1.4] tracking-tight text-foreground/65">
-              Independent engineer focused and obsessed with anything about AI.
+              {language === "id" ? "Membangun dan menjalankan JuanRouter, platform AI multi-model untuk Indonesia." : profile.tagline}
             </p>
 
             <HeroCtas />
@@ -48,7 +55,7 @@ export function Hero(): ReactNode {
                 {/* Static image for fast LCP — visible immediately */}
                 <Image
                   src={PORTRAIT_SRC}
-                  alt="Juan portrait"
+                  alt={language === "id" ? "Potret Juan" : "Juan portrait"}
                   fill
                   priority
                   sizes="(min-width: 768px) 420px, 100vw"
@@ -59,7 +66,7 @@ export function Hero(): ReactNode {
                   <PortraitMorph
                     srcA={PORTRAIT_SRC}
                     srcB={PORTRAIT_HOVER_SRC}
-                    alt="Juan portrait"
+                    alt={language === "id" ? "Potret Juan" : "Juan portrait"}
                   />
                 </div>
               </div>

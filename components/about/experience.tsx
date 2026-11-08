@@ -4,16 +4,19 @@ import { useState, type ReactNode } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { experience } from "@/lib/content";
+import { experienceId } from "@/lib/content-id";
+import { useLanguage } from "@/lib/language";
 
 type Entry = (typeof experience)[number];
 
 export function Experience(): ReactNode {
+  const language = useLanguage();
   const [active, setActive] = useState<Entry | null>(null);
 
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-foreground text-[15px] font-semibold tracking-tight">
-        Experience
+        {language === "id" ? "Pengalaman" : "Experience"}
       </h3>
       <div className="border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative rounded-4xl border p-2 sm:p-4">
         <ul className="flex flex-col gap-2">
@@ -40,17 +43,17 @@ export function Experience(): ReactNode {
                       {entry.company}
                     </span>
                     <span className="text-foreground/65 mt-0.5 text-[14px] tracking-tight sm:text-[15px]">
-                      {entry.role}
+                      {language === "id" ? experienceId[entry.id]?.role ?? entry.role : entry.role}
                       <span className="text-foreground/30 mx-2">•</span>
-                      <span className="text-foreground/55">{entry.period}</span>
+                      <span className="text-foreground/55">{language === "id" ? experienceId[entry.id]?.period ?? entry.period : entry.period}</span>
                     </span>
                   </div>
                 </div>
                 <p className="text-foreground/60 line-clamp-2 pl-16 text-[13px] leading-[1.6] tracking-tight sm:text-[14px]">
-                  {entry.description}
+                  {language === "id" ? experienceId[entry.id]?.description ?? entry.description : entry.description}
                 </p>
                 <span className="text-foreground/45 pl-16 text-[12px] font-medium">
-                  View details ↗
+                  {language === "id" ? "Lihat detail ↗" : "View details ↗"}
                 </span>
               </button>
             </li>
@@ -66,15 +69,15 @@ export function Experience(): ReactNode {
         {active ? (
           <div className="flex flex-col gap-4">
             <p className="text-foreground/65 text-[15px]">
-              {active.role}
+              {language === "id" ? experienceId[active.id]?.role ?? active.role : active.role}
               <span className="text-foreground/30 mx-2">•</span>
-              {active.period}
+              {language === "id" ? experienceId[active.id]?.period ?? active.period : active.period}
             </p>
             <p className="text-foreground/75 text-[16px] leading-relaxed">
-              {active.detail}
+              {language === "id" ? experienceId[active.id]?.detail ?? active.detail : active.detail}
             </p>
             <ul className="flex flex-col gap-2">
-              {active.highlights.map((h) => (
+              {(language === "id" ? experienceId[active.id]?.highlights ?? active.highlights : active.highlights).map((h) => (
                 <li
                   key={h}
                   className="bg-foreground/4 text-foreground/80 rounded-2xl px-4 py-3 text-[14px]"

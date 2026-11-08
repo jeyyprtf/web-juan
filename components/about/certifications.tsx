@@ -6,17 +6,20 @@ import { useState, type ReactNode } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { certifications, profile } from "@/lib/content";
+import { certificationId } from "@/lib/content-id";
+import { useLanguage } from "@/lib/language";
 
 type Entry = (typeof certifications)[number];
 
 export function Certifications(): ReactNode {
+  const language = useLanguage();
   const [active, setActive] = useState<Entry | null>(null);
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <h3 className="text-foreground text-[15px] font-semibold tracking-tight">
-          Certifications & Courses
+          {language === "id" ? "Sertifikasi & Kursus" : "Certifications & Courses"}
         </h3>
         <Link
           href={profile.certsDrive}
@@ -24,7 +27,7 @@ export function Certifications(): ReactNode {
           rel="noopener noreferrer"
           className="focus-ring text-foreground/60 hover:text-foreground inline-flex items-center gap-1.5 text-[13px] font-medium tracking-tight transition-colors"
         >
-          View all
+          {language === "id" ? "Lihat semua" : "View all"}
           <ExternalLink className="h-3 w-3" aria-hidden="true" />
         </Link>
       </div>
@@ -49,7 +52,7 @@ export function Certifications(): ReactNode {
                 </span>
                 <div className="flex min-w-0 flex-1 flex-col">
                   <span className="text-foreground text-[15px] leading-tight font-semibold tracking-tight sm:text-[16px]">
-                    {entry.title}
+                    {language === "id" ? certificationId[entry.id]?.title ?? entry.title : entry.title}
                   </span>
                   <span className="text-foreground/65 mt-0.5 text-[13px] tracking-tight sm:text-[14px]">
                     {entry.issuer}
@@ -67,7 +70,7 @@ export function Certifications(): ReactNode {
       <Modal
         open={!!active}
         onClose={() => setActive(null)}
-        title={active?.title ?? "Certification"}
+        title={active ? (language === "id" ? certificationId[active.id]?.title ?? active.title : active.title) : (language === "id" ? "Sertifikasi" : "Certification")}
       >
         {active ? (
           <div className="flex flex-col gap-3">
@@ -77,7 +80,7 @@ export function Certifications(): ReactNode {
               {active.year}
             </p>
             <p className="text-foreground/75 text-[16px] leading-relaxed">
-              {active.detail}
+              {language === "id" ? certificationId[active.id]?.detail ?? active.detail : active.detail}
             </p>
             <Link
               href={profile.certsDrive}
@@ -85,7 +88,7 @@ export function Certifications(): ReactNode {
               rel="noopener noreferrer"
               className="focus-ring border-foreground/10 text-foreground mt-2 inline-flex w-fit items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium"
             >
-              Open certificates drive
+              {language === "id" ? "Buka folder sertifikat" : "Open certificates drive"}
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>

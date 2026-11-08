@@ -4,16 +4,19 @@ import { useState, type ReactNode } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { education } from "@/lib/content";
+import { educationId } from "@/lib/content-id";
+import { useLanguage } from "@/lib/language";
 
 type Entry = (typeof education)[number];
 
 export function Education(): ReactNode {
+  const language = useLanguage();
   const [active, setActive] = useState<Entry | null>(null);
 
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-foreground text-[15px] font-semibold tracking-tight">
-        Education
+        {language === "id" ? "Pendidikan" : "Education"}
       </h3>
       <div className="border-foreground/5 bg-foreground/2 dark:bg-foreground/5 relative rounded-4xl border p-2 sm:p-4">
         <ul className="flex flex-col gap-2">
@@ -37,9 +40,9 @@ export function Education(): ReactNode {
                     {entry.school}
                   </span>
                   <span className="text-foreground/65 mt-0.5 text-[14px] tracking-tight sm:text-[15px]">
-                    {entry.degree}
+                    {language === "id" ? educationId[entry.id]?.degree ?? entry.degree : entry.degree}
                     <span className="text-foreground/30 mx-2">•</span>
-                    <span className="text-foreground/55">{entry.period}</span>
+                    <span className="text-foreground/55">{language === "id" ? educationId[entry.id]?.period ?? entry.period : entry.period}</span>
                   </span>
                 </div>
                 <span className="text-foreground/40 pr-2 text-[12px]">↗</span>
@@ -57,12 +60,12 @@ export function Education(): ReactNode {
         {active ? (
           <div className="flex flex-col gap-3">
             <p className="text-foreground/65 text-[15px]">
-              {active.degree}
+              {language === "id" ? educationId[active.id]?.degree ?? active.degree : active.degree}
               <span className="text-foreground/30 mx-2">•</span>
-              {active.period}
+              {language === "id" ? educationId[active.id]?.period ?? active.period : active.period}
             </p>
             <p className="text-foreground/75 text-[16px] leading-relaxed">
-              {active.detail}
+              {language === "id" ? educationId[active.id]?.detail ?? active.detail : active.detail}
             </p>
           </div>
         ) : null}

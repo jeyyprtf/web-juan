@@ -2,7 +2,7 @@
   "name": "juan-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Juan — AI Specialist portfolio (juan.web.id)",
+  "description": "Juan — Founder of JuanRouter portfolio (juan.web.id)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

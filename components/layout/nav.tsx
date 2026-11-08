@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { setLanguage, useLanguage } from "@/lib/language";
 import { usePathname } from "next/navigation";
 import {
   useLayoutEffect,
@@ -33,6 +34,7 @@ function useIsMounted(): boolean {
 }
 
 function NavThemeToggle(): ReactNode {
+  const language = useLanguage();
   const mounted = useIsMounted();
   const { setTheme, resolvedTheme } = useTheme();
   const isDark = mounted && resolvedTheme === "dark";
@@ -83,9 +85,9 @@ function NavThemeToggle(): ReactNode {
       aria-label={
         mounted
           ? isDark
-            ? "Switch to light theme"
-            : "Switch to dark theme"
-          : "Toggle theme"
+            ? (language === "id" ? "Ubah ke tema terang" : "Switch to light theme")
+            : (language === "id" ? "Ubah ke tema gelap" : "Switch to dark theme")
+          : (language === "id" ? "Ubah tema" : "Toggle theme")
       }
       aria-pressed={mounted ? isDark : undefined}
       className="focus-ring relative inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-background ring-1 ring-foreground/8 transition-colors"
@@ -111,6 +113,7 @@ function NavThemeToggle(): ReactNode {
 }
 
 export function Nav(): ReactNode {
+  const language = useLanguage();
   const pathname = usePathname();
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
@@ -158,11 +161,11 @@ export function Nav(): ReactNode {
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [activeIndex, pathname]);
+  }, [activeIndex, pathname, language]);
 
   return (
     <nav
-      aria-label="Primary"
+      aria-label={language === "id" ? "Navigasi utama" : "Primary navigation"}
       className="fixed left-1/2 top-6 z-50 -translate-x-1/2"
     >
       <div className="flex items-center gap-1 rounded-full bg-background p-1.5 shadow-sm border border-foreground/8">
@@ -194,7 +197,7 @@ export function Nav(): ReactNode {
                 <Link
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
-                  className="focus-ring relative inline-flex cursor-pointer items-center justify-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-300"
+                  className="focus-ring relative inline-flex cursor-pointer items-center justify-center rounded-full px-2.5 sm:px-4 py-1.5 text-sm font-medium transition-colors duration-300"
                 >
                   <span
                     className={
@@ -203,13 +206,26 @@ export function Nav(): ReactNode {
                         : "relative z-10 text-foreground/60 hover:text-foreground"
                     }
                   >
-                    {item.label}
+                    {language === "id" ? ({ Home: "Beranda", Projects: "Proyek", About: "Tentang" } as Record<string, string>)[item.label] : item.label}
                   </span>
                 </Link>
               </li>
             );
           })}
         </ul>
+        <button
+          type="button"
+          onClick={() => setLanguage(language === "en" ? "id" : "en")}
+          aria-label={language === "en" ? "Switch language to Indonesian" : "Ganti bahasa ke Inggris"}
+          title={language === "en" ? "Switch to Indonesian" : "Ganti ke bahasa Inggris"}
+          className="focus-ring inline-flex h-8 min-w-10 items-center justify-center rounded-full bg-background px-1 text-[10px] font-semibold text-foreground ring-1 ring-foreground/8"
+        >
+          <span aria-hidden="true">
+            <span className={language === "en" ? "text-foreground" : "text-foreground/40"}>EN</span>
+            <span className="text-foreground/30">/</span>
+            <span className={language === "id" ? "text-foreground" : "text-foreground/40"}>ID</span>
+          </span>
+        </button>
         <NavThemeToggle />
       </div>
     </nav>

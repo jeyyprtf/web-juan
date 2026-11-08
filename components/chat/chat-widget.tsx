@@ -12,18 +12,22 @@ import {
   type ReactNode,
 } from "react";
 
+import { profile } from "@/lib/content";
+import { useLanguage } from "@/lib/language";
+
 type ChatMsg = { role: "user" | "assistant"; content: string };
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const WELCOME =
-  "Hai! Aku JuanBot — tanya soal Juan, project, skill, atau cara kontak. Di luar itu aku skip ya.";
+const WELCOME = `Hi! I’m JuanBot, the portfolio assistant for ${profile.name}, ${profile.title}. Ask about JuanRouter, Juan’s work, or collaborating.`;
+const WELCOME_ID = `Hai! Aku JuanBot, asisten portfolio ${profile.name} — Pendiri JuanRouter. Tanya soal JuanRouter, karya Juan, atau cara berkolaborasi.`;
 
 const SUGGESTIONS = [
-  "Siapa Juan?",
-  "Project unggulan?",
-  "Cara kontak?",
+  "Who is Juan?",
+  "What is JuanRouter?",
+  "How can we collaborate?",
 ] as const;
+const SUGGESTIONS_ID = ["Siapa Juan?", "Apa itu JuanRouter?", "Cara kolaborasi?"] as const;
 
 function stripThink(text: string): string {
   return text
@@ -93,6 +97,7 @@ async function readChatStream(
 }
 
 export function ChatWidget(): ReactNode {
+  const language = useLanguage();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -262,8 +267,8 @@ export function ChatWidget(): ReactNode {
                   </p>
                   <p className="text-foreground/50 text-[11px] tracking-tight">
                     {streaming
-                      ? "Mengetik…"
-                      : "AI assistant · portfolio"}
+                      ? (language === "id" ? "Mengetik…" : "Typing…")
+                      : (language === "id" ? "Asisten AI · portofolio" : "AI assistant · portfolio")}
                   </p>
                 </div>
               </div>
@@ -271,7 +276,7 @@ export function ChatWidget(): ReactNode {
                 type="button"
                 onClick={() => setOpen(false)}
                 className="focus-ring border-foreground/8 text-foreground/50 hover:text-foreground hover:bg-foreground/5 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl border transition-colors"
-                aria-label="Close chat"
+                aria-label={language === "id" ? "Tutup chat" : "Close chat"}
               >
                 <X className="h-4 w-4" />
               </button>
@@ -303,7 +308,7 @@ export function ChatWidget(): ReactNode {
                       }
                     >
                       <p className="whitespace-pre-wrap">
-                        {m.content}
+                        {i === 0 && m.content === WELCOME && language === "id" ? WELCOME_ID : m.content}
                         {isLast && streaming && m.role === "assistant" ? (
                           <span className="bg-foreground/50 ml-0.5 inline-block h-3 w-0.5 animate-pulse align-middle" />
                         ) : null}
@@ -342,7 +347,7 @@ export function ChatWidget(): ReactNode {
                   transition={{ delay: 0.15, duration: 0.35, ease: EASE }}
                   className="mt-1 flex flex-wrap gap-2"
                 >
-                  {SUGGESTIONS.map((s) => (
+                  {(language === "id" ? SUGGESTIONS_ID : SUGGESTIONS).map((s) => (
                     <button
                       key={s}
                       type="button"
@@ -364,7 +369,7 @@ export function ChatWidget(): ReactNode {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Tanya tentang Juan…"
+                placeholder={language === "id" ? "Tanya tentang Juan…" : "Ask about Juan…"}
                 maxLength={1200}
                 disabled={busy}
                 className="focus-ring text-foreground placeholder:text-foreground/35 bg-foreground/[0.03] border-foreground/8 h-11 min-w-0 flex-1 rounded-xl border px-3.5 text-[13px] tracking-tight outline-none transition-colors"
@@ -374,7 +379,7 @@ export function ChatWidget(): ReactNode {
                 disabled={busy || !input.trim()}
                 whileTap={{ scale: 0.92 }}
                 className="focus-ring bg-foreground text-background inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Send"
+                aria-label={language === "id" ? "Kirim" : "Send"}
               >
                 <Send className="h-4 w-4" />
               </motion.button>
@@ -392,7 +397,7 @@ export function ChatWidget(): ReactNode {
           whileTap={{ scale: 0.94 }}
           transition={{ type: "spring", stiffness: 420, damping: 28 }}
           className="focus-ring border-foreground/10 bg-foreground text-background pointer-events-auto relative inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border shadow-lg shadow-black/20"
-          aria-label={open ? "Close chat" : "Open JuanBot chat"}
+          aria-label={open ? (language === "id" ? "Tutup chat" : "Close chat") : (language === "id" ? "Buka chat JuanBot" : "Open JuanBot chat")}
           aria-expanded={open}
         >
           <AnimatePresence mode="wait" initial={false}>

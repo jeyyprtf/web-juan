@@ -4,6 +4,7 @@ import { RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { stack as CHIPS, type StackChip } from "@/lib/content";
+import { useLanguage } from "@/lib/language";
 
 type Chip = StackChip;
 
@@ -19,6 +20,7 @@ type ChipState = {
 };
 
 export function Stack(): ReactNode {
+  const language = useLanguage();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const measureRef = useRef<HTMLDivElement | null>(null);
@@ -210,7 +212,7 @@ export function Stack(): ReactNode {
     <div ref={rootRef} className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
         <h3 className="text-foreground text-[15px] font-semibold tracking-tight">
-          Stack
+          {language === "id" ? "Teknologi" : "Stack"}
         </h3>
       </div>
 
@@ -218,7 +220,7 @@ export function Stack(): ReactNode {
         <button
           type="button"
           onClick={() => setResetKey((k) => k + 1)}
-          aria-label="Reset stack"
+          aria-label={language === "id" ? "Atur ulang teknologi" : "Reset stack"}
           className="focus-ring border-foreground/8 bg-background text-foreground/70 hover:text-foreground absolute top-3 right-3 z-20 inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors"
         >
           <RotateCcw

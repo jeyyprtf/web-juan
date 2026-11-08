@@ -1,6 +1,6 @@
 # Juan Portfolio
 
-Personal site of **Juan** — AI Specialist & Engineer.
+Personal site of **Juan Madhy** — Founder of [JuanRouter](https://juanrouter.com), a multi-model AI platform for Indonesia.
 
 🌐 **Live**: [juan.web.id](https://juan.web.id)
 

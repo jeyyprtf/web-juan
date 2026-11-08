@@ -3,12 +3,13 @@
 ## Profile
 - Name: Juan
 - Full name: Juan Madhy
-- Title: AI Specialist & Engineer
-- Tagline: Independent engineer focused and obsessed with anything about AI.
+- Primary role: Founder of JuanRouter
+- Company: JuanRouter — https://juanrouter.com
+- Tagline: Building and running JuanRouter, a multi-model AI platform for Indonesia.
 - Motto: Smart systems should empower people — not complicate their lives.
 - Location: Malang, Indonesia
 - Website: https://juan.web.id
-- Email: business@juan.web.id
+- Email: business@juanrouter.com
 - WhatsApp: +6288805385353
 - CV: https://juan.web.id/cv/cv-juan.pdf
 - Certificates drive: https://drive.google.com/drive/folders/1p31dzN7TkdrjkoSJEjeo_SXM9QQBFjTw?usp=sharing
@@ -21,13 +22,23 @@
 - TikTok: https://tiktok.com/@jeyy_prtf
 
 ## About (site copy)
-Juan is an AI Specialist & Engineer and Business Information Systems student at Politeknik Negeri Malang — building things that work in the real world, not just demos.
+Juan Madhy's primary role is **Founder of JuanRouter** (https://juanrouter.com). JuanRouter is a multi-model AI platform for Indonesian users, connecting AI API access with payments in Rupiah, subscriptions, and user support.
 
-Work sits at the intersection of AI, automation, and IoT: assistants, intelligent services, and field-ready AIoT. From portable sensor tools for technicians to AI detection deployments in rural farming, focus is tech that solves real problems for real people.
+As the solo founder, Juan owns product strategy, engineering, pricing, operations, marketing, content, and the Telegram community. The gateway and chat use open-source foundations, with Codex and Claude Code assisting development. Product decisions and service operations remain his responsibility.
 
-Driven by: smart systems should empower people, not complicate their lives. Bridges cutting-edge AI with on-the-ground implementation.
+His supporting background spans AI, software engineering, and IoT. He also founded Sakura, a Minecraft server with multiplayer systems, Java plugins, and AI workflows for building and judging competitions, and studies Business Information Systems at Politeknik Negeri Malang. Earlier work includes portable sensor tools and AIoT deployments in rural farming.
+
+Driven by: smart systems should empower people, not complicate their lives. This guides how he builds JuanRouter and works with its users. For introductions, lead with the founder role and JuanRouter; use technical experience and education as supporting context.
+
+JuanBot is the assistant on Juan's portfolio. It is separate from JuanRouter's Telegram AI Helper Bot and cannot access user accounts, process payments, or perform support actions.
 
 ## Experience
+### JuanRouter — Solo Founder & Product Engineer (Jul 2026 – Present)
+Founded and operate a multi-model AI platform for Indonesian users. Own product strategy, engineering, payments, pricing, operations, marketing, and community building. Built on new-api and LibreChat with Codex and Claude Code assisting development.
+
+### Sakura Minecraft Server — Founder & Game Systems Developer (Jun 2026 – Present)
+Founded and develop a Minecraft server with custom multiplayer modes, four Java plugins, AI-assisted building, and vision-based Build Battle judging. Work includes match systems, virtual-currency escrow, Linux operations, backups, world migrations, and player-data recovery.
+
 ### Chickin Indonesia — AIoT Intern (2024)
 Deepened understanding of AI and IoT in industry while actively deploying and implementing solutions on-site. Designed and developed a portable sensor configuration tool. Served as PIC for AI-based detection technology deployment in partner rural livestock farms.
 
@@ -60,6 +71,8 @@ Built a strong foundation in networking, telecommunications, and hands-on techni
    Podcast participation discussing practical embedded, IoT, and maker engineering experiences.
 
 ## Skills (What Juan does)
+- Product Engineering & Operations — product strategy, pricing, payments, deployment, marketing, and community support
+- Multiplayer & Game Systems — Java/Skript plugins, match state, arena ownership, recoverable virtual-currency transactions, and AI workflows
 - AI Systems & Agents — agentic workflows, tool-using assistants, AI services that plug into real products and ops
 - AI Automation — automating repetitive work with LLMs, pipelines, integrations
 - AI Assistants — voice/text assistants and copilots for homes, teams, field tools
@@ -71,9 +84,21 @@ Built a strong foundation in networking, telecommunications, and hands-on techni
 - Smart Infrastructure — hydroponics, farming, home automation with monitoring/control
 
 ## Tech stack
-Python, TypeScript, JavaScript, Next.js, React, Node.js, FastAPI, Express, Claude Code, OpenCode, Codex, Tailwind CSS, PostgreSQL, Supabase, Docker, MQTT, Arduino, Git, GitHub
+Python, TypeScript, JavaScript, Java, Next.js, React, Node.js, FastAPI, Express, Claude Code, OpenCode, Codex, Tailwind CSS, PostgreSQL, Supabase, Docker, SQLite, Linux, MQTT, Arduino, Git, GitHub
 
 ## Projects
+### JuanRouter (Live) — Solo Founder & Product Engineer
+Multi-model AI access for Indonesian users: API gateway, usage-based billing, Rupiah payments, PAYG vouchers, subscriptions, and automated fulfillment. Juan owns engineering, operations, pricing, marketing, content, and community. Gateway/chat use open-source new-api and LibreChat; models are provided by third parties.
+Juan Topup supports Midtrans checkout, a prepaid Rupiah wallet, affiliates, and community credit pools. The Rupiah wallet is separate from Router AI credits; Router, Topup, and Chat use separate accounts. Juan Chat uses each user's own Router API key. A Telegram AI Helper Bot uses product documentation and relevant service data for user support.
+Live: https://juanrouter.com | Topup: https://topup.juanrouter.com | Chat: https://chat.juan.web.id
+Tags: AI Platform, API Gateway, Node.js, SQLite, Midtrans
+
+### Sakura (Ongoing) — Founder & Game Systems Developer
+Minecraft server combining Java and Skript gameplay with third-party plugins on Paper. Four custom Java plugins: SakuraAI, SakuraBuildBattle, SakuraGames, SakuraVoiceAuth.
+SakuraAI produces validated block plans from text/images, requires admin confirmation, executes in batches, and supports temporary undo. Build Battle uses plot snapshots, five Chunky-rendered views per plot, a Python worker, and validated vision-model scores. Shared match systems handle queues, arena ownership, and recoverable escrow using virtual currency, not real-money payments. Operations include deployment, off-host backups, world migration, and player-data recovery.
+No public website or repository. Project began around June 2026; JuanRouter began July 26, 2026 (dates confirmed by Juan).
+Tags: Java, Python, Skript, Multimodal AI, Linux
+
 ### TFE ERP (On Develop) — Full Stack Developer
 ERP that adapts from small teams to enterprise. Task dashboards, progress tracking, assignment, meeting notes.
 Live: https://erp.juan.web.id | GitHub: https://github.com/jeyyprtf/erp
@@ -116,4 +141,4 @@ Restaurant template: menu, hours, location, order CTA.
 Live: https://contoh3.juan.web.id | GitHub: https://github.com/jeyyprtf/EXAMPLE-WEB-warung-makan
 
 ## Contact / collab intent
-Visitors can collaborate, discuss a project, or say hello via contact form on the site (opens email app), email business@juan.web.id, or WhatsApp +6288805385353.
+Visitors can collaborate, discuss a project, or say hello via contact form on the site (opens email app), email business@juanrouter.com, or WhatsApp +6288805385353.

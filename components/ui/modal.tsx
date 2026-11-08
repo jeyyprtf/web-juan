@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from "@/lib/language";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,6 +23,7 @@ export function Modal({
   title: string;
   children: ReactNode;
 }): ReactNode {
+  const language = useLanguage();
   const titleId = useId();
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export function Modal({
         <div className="fixed inset-0 z-[100] flex items-end justify-center p-3 sm:items-center sm:p-6">
           <motion.button
             type="button"
-            aria-label="Close dialog"
+            aria-label={language === "id" ? "Tutup dialog" : "Close dialog"}
             className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -74,7 +76,7 @@ export function Modal({
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close"
+                aria-label={language === "id" ? "Tutup" : "Close"}
                 className="focus-ring border-foreground/8 text-foreground/60 hover:text-foreground absolute top-3.5 right-3.5 inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border bg-background transition-colors"
               >
                 <X className="h-4 w-4" aria-hidden="true" />

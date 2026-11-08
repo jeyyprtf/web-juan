@@ -1,7 +1,8 @@
 import { ImageResponse } from "next/og";
+import { profile } from "@/lib/content";
 
 export const runtime = "edge";
-export const alt = "Juan — AI Specialist & Engineer";
+export const alt = `${profile.name} — ${profile.title}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,8 +59,7 @@ export default function TwitterImage() {
               lineHeight: 1.05,
             }}
           >
-            AI Specialist
-            <br />& Engineer
+            {profile.title}
           </div>
           <div
             style={{
@@ -69,8 +69,7 @@ export default function TwitterImage() {
               lineHeight: 1.35,
             }}
           >
-            Building intelligent systems, automation & AIoT that work in the
-            real world.
+            {profile.tagline}
           </div>
         </div>
 
@@ -82,11 +81,11 @@ export default function TwitterImage() {
             color: "#737373",
           }}
         >
-          <span>AI Systems</span>
+          <span>AI Products</span>
           <span>·</span>
-          <span>AIoT</span>
+          <span>Engineering</span>
           <span>·</span>
-          <span>Full Stack</span>
+          <span>Community</span>
         </div>
       </div>
     ),

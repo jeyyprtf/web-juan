@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import { profile } from "@/lib/content";
 
 export const siteConfig = {
   name: "Juan",
-  title: "Juan — AI Specialist & Engineer",
-  description:
-    "AI Specialist & Engineer building intelligent systems, automation, and AIoT that work in the real world.",
+  title: `${profile.name} — ${profile.title}`,
+  description: `${profile.fullName}, ${profile.title}. ${profile.tagline} Product, engineering, operations, and community.`,
   url: "https://juan.web.id",
   ogImage: "/opengraph-image",
   creator: "@jeyy_prtf",
-  email: "business@juan.web.id",
+  email: profile.email,
   authors: [
     {
       name: "Juan",
@@ -18,8 +18,11 @@ export const siteConfig = {
   keywords: [
     "Juan",
     "Juan Madhy",
-    "AI Specialist",
-    "AI Engineer",
+    "JuanRouter",
+    "Founder of JuanRouter",
+    "Solo Founder",
+    "Product Engineering",
+    "AI Platform",
     "AIoT",
     "AI Automation",
     "Full Stack Developer",

@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { useReducedMotion } from "@/lib/motion";
+import { useLanguage } from "@/lib/language";
 
 /** Vertical wavy path — fixed to left edge only. */
 const PATH_D =
@@ -24,14 +25,12 @@ const FALLBACK_BY_ROUTE: Record<string, string[]> = {
 };
 
 function useJourneyLabel(pathname: string): string {
-  const [label, setLabel] = useState(
-    () => FALLBACK_BY_ROUTE[pathname]?.[0] ?? "Exploring"
-  );
+  const [selected, setSelected] = useState(() => ({
+    pathname,
+    label: FALLBACK_BY_ROUTE[pathname]?.[0] ?? "Exploring",
+  }));
 
   useEffect(() => {
-    const defaults = FALLBACK_BY_ROUTE[pathname] ?? ["Exploring"];
-    setLabel(defaults[0] ?? "Exploring");
-
     const nodes = Array.from(
       document.querySelectorAll<HTMLElement>("[data-journey]")
     );
@@ -45,7 +44,11 @@ function useJourneyLabel(pathname: string): string {
       }
       if (best) {
         const next = best.el.getAttribute("data-journey");
-        if (next) setLabel(next);
+        if (next) setSelected((previous) =>
+          previous.pathname === pathname && previous.label === next
+            ? previous
+            : { pathname, label: next }
+        );
       }
     };
 
@@ -70,11 +73,14 @@ function useJourneyLabel(pathname: string): string {
     return () => io.disconnect();
   }, [pathname]);
 
-  return label;
+  return selected.pathname === pathname
+    ? selected.label
+    : FALLBACK_BY_ROUTE[pathname]?.[0] ?? "Exploring";
 }
 
 /** Left-rail scroll indicator with section journey label. */
 export function ScrollPath(): ReactNode {
+  const language = useLanguage();
   const reduced = useReducedMotion();
   const pathname = usePathname() || "/";
   const label = useJourneyLabel(pathname);
@@ -180,7 +186,7 @@ export function ScrollPath(): ReactNode {
       >
         <div className="rounded-2xl border border-foreground/10 bg-background/90 px-2.5 py-1.5 shadow-lg backdrop-blur-md dark:bg-background/80">
           <p className="text-foreground/40 text-[9px] font-medium tracking-[0.12em] uppercase">
-            Now
+            {language === "id" ? "Sekarang" : "Now"}
           </p>
           <AnimatePresence mode="wait">
             <motion.p
@@ -191,7 +197,7 @@ export function ScrollPath(): ReactNode {
               transition={{ duration: 0.2 }}
               className="text-foreground text-[12px] leading-tight font-semibold tracking-tight"
             >
-              {label}
+              {language === "id" ? ({ "About me": "Tentang saya", Projects: "Proyek", "My work": "Karya saya", Story: "Cerita", Background: "Latar belakang", Stack: "Teknologi", "Let's connect": "Mari terhubung", Exploring: "Menjelajahi" } as Record<string, string>)[label] ?? label : label}
             </motion.p>
           </AnimatePresence>
         </div>

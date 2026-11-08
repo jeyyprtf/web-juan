@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" fill="none">
+  <title>Sakura system overview</title>
+  <desc>Custom Java plugins connect multiplayer gameplay on Paper and Skript to a Python rendering worker and vision model API.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#FFFFFF" stroke-opacity=".035"/>
+    </pattern>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(1250 80) rotate(120) scale(1000 900)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9D4665" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#15151B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="#15151B" d="M0 0h1600v1000H0z"/>
+  <path fill="url(#grid)" d="M0 0h1600v1000H0z"/>
+  <path fill="url(#glow)" d="M0 0h1600v1000H0z"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="90" y="99" fill="#D8A7BB" font-size="19" letter-spacing="4">MULTIPLAYER + MULTIMODAL AI</text>
+    <text x="85" y="221" fill="#FFF6FA" font-size="100" font-weight="700" letter-spacing="-5">Sakura</text>
+    <text x="90" y="277" fill="#ACA8B5" font-size="27">Custom game systems. AI inside the world.</text>
+    <rect x="1220" y="70" width="290" height="47" rx="23.5" stroke="#DB9FB9" stroke-opacity=".3"/>
+    <text x="1365" y="100" fill="#DBB7C6" font-size="17" text-anchor="middle" letter-spacing="2">SYSTEM OVERVIEW</text>
+    <g stroke="#D8A7BB" stroke-opacity=".5" stroke-width="3">
+      <path d="M525 491H625M975 491H1075M800 595V655M350 595V655M1250 595V655"/>
+      <path d="m611 482 14 9-14 9m450-18 14 9-14 9"/>
+    </g>
+    <rect x="90" y="390" width="435" height="205" rx="24" fill="#202029" stroke="#FFFFFF" stroke-opacity=".12"/>
+    <text x="125" y="436" fill="#A6A0AF" font-size="16" letter-spacing="2">01 / GAMEPLAY</text>
+    <text x="125" y="494" fill="#FAF5F7" font-size="34" font-weight="600">Paper + Skript</text>
+    <text x="125" y="548" fill="#BDB6C4" font-size="23">Worlds, players, match state</text>
+    <rect x="625" y="390" width="350" height="205" rx="24" fill="#30212C" stroke="#D8A7BB" stroke-opacity=".55"/>
+    <text x="660" y="436" fill="#DBB7C6" font-size="16" letter-spacing="2">02 / CUSTOM LOGIC</text>
+    <text x="660" y="494" fill="#FFF2F8" font-size="34" font-weight="600">Java plugins</text>
+    <text x="660" y="548" fill="#CEB5C2" font-size="23">AI, games, voice access</text>
+    <rect x="1075" y="390" width="435" height="205" rx="24" fill="#202029" stroke="#FFFFFF" stroke-opacity=".12"/>
+    <text x="1110" y="436" fill="#A6A0AF" font-size="16" letter-spacing="2">03 / JUDGING PIPELINE</text>
+    <text x="1110" y="494" fill="#FAF5F7" font-size="34" font-weight="600">Python + Vision API</text>
+    <text x="1110" y="548" fill="#BDB6C4" font-size="23">Chunky renders · 5 views / plot</text>
+    <g fill="#BDB6C4" font-size="22" text-anchor="middle">
+      <text x="350" y="693">Queues + arena leases</text>
+      <text x="800" y="693">Validated build plans</text>
+      <text x="1250" y="693">Scores + feedback</text>
+    </g>
+    <path d="M90 782H1510" stroke="#FFFFFF" stroke-opacity=".12"/>
+    <text x="90" y="839" fill="#A6A0AF" font-size="16" letter-spacing="2">FOUR CUSTOM JAVA PLUGINS</text>
+    <text x="90" y="897" fill="#E9DCE3" font-size="25">SakuraAI</text>
+    <text x="390" y="897" fill="#E9DCE3" font-size="25">SakuraBuildBattle</text>
+    <text x="820" y="897" fill="#E9DCE3" font-size="25">SakuraGames</text>
+    <text x="1180" y="897" fill="#E9DCE3" font-size="25">SakuraVoiceAuth</text>
+  </g>
+</svg>

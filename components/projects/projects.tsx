@@ -5,9 +5,11 @@ import {
   Bot,
   Cpu,
   ExternalLink,
+  Gamepad2,
   Github,
   Layers,
   Leaf,
+  Network,
   ShoppingBag,
   Smartphone,
   Sprout,
@@ -21,8 +23,12 @@ import { useState, type ComponentType, type ReactNode } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Reveal } from "@/components/ui/motion-primitives";
 import { projects as PROJECTS, type ProjectContent } from "@/lib/content";
+import { projectId } from "@/lib/content-id";
+import { useLanguage } from "@/lib/language";
 
 const ICONS: Record<string, ComponentType<{ className?: string }>> = {
+  juanrouter: Network,
+  sakura: Gamepad2,
   "tfe-erp": Layers,
   "smarthome-ai": Bot,
   nevada: Leaf,
@@ -43,6 +49,7 @@ export function Projects({
   withHeadline = false,
   viewMoreVisible = false,
 }: ProjectsProps): ReactNode {
+  const language = useLanguage();
   const items = viewMoreVisible ? PROJECTS.slice(0, 4) : PROJECTS;
   const [active, setActive] = useState<ProjectContent | null>(null);
 
@@ -55,11 +62,10 @@ export function Projects({
         {withHeadline ? (
           <Reveal className="flex flex-col items-center gap-5 pt-12 pb-10 text-center sm:pt-20 sm:pb-14">
             <h2 className="font-serif text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground md:text-[3rem] lg:text-[3.5rem]">
-              My projects
+              {language === "id" ? "Proyek saya" : "My projects"}
             </h2>
             <p className="max-w-[33ch] text-[18px] leading-[1.45] tracking-tight text-foreground/65 sm:text-[20px]">
-              From smart IoT devices to AI-powered systems, a look at the
-              solutions I&rsquo;ve built for real-world problems.
+              {language === "id" ? "Produk AI, sistem multiplayer, dan perangkat IoT yang saya bangun dan jalankan untuk pengguna." : "AI products, multiplayer systems, and IoT devices — things I’ve built and operated for real people."}
             </p>
           </Reveal>
         ) : null}
@@ -82,7 +88,7 @@ export function Projects({
               href="/projects"
               className="border border-foreground/8 focus-ring group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-foreground/5"
             >
-              View all projects
+              {language === "id" ? "Lihat semua proyek" : "View all projects"}
               <ArrowRight
                 className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
                 aria-hidden="true"
@@ -112,6 +118,8 @@ function ProjectCard({
   index: number;
   onOpen: () => void;
 }): ReactNode {
+  const language = useLanguage();
+  const content = language === "id" ? { ...project, ...projectId[project.id] } : project;
   const Icon = ICONS[project.id] ?? Layers;
   return (
     <div className="mb-6 break-inside-avoid md:mb-7">
@@ -143,7 +151,7 @@ function ProjectCard({
           <div className="project-card__image-inner relative h-full w-full">
             <Image
               src={project.image}
-              alt={project.imageAlt}
+              alt={content.imageAlt}
               fill
               sizes="(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -154,19 +162,19 @@ function ProjectCard({
 
         <div className="flex flex-col gap-2.5 px-1 pb-1">
           <h3 className="text-[20px] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[22px]">
-            {project.title}
+            {content.title}
           </h3>
           <p className="text-[14px] leading-normal tracking-tight text-foreground/65 sm:text-[15px]">
-            {project.description}
+            {content.description}
           </p>
         </div>
 
         <div className="flex items-center justify-between px-1 pb-2">
           <p className="text-[12px] tracking-tight text-foreground/50">
-            {project.meta}
+            {content.meta}
           </p>
           <span className="text-[12px] font-medium tracking-tight text-foreground/55">
-            Details ↗
+            {language === "id" ? "Detail ↗" : "Details ↗"}
           </span>
         </div>
       </article>
@@ -175,6 +183,8 @@ function ProjectCard({
 }
 
 function ProjectDetail({ project }: { project: ProjectContent }): ReactNode {
+  const language = useLanguage();
+  const content = language === "id" ? { ...project, ...projectId[project.id] } : project;
   const Icon = ICONS[project.id] ?? Layers;
   return (
     <div className="flex flex-col gap-5">
@@ -184,7 +194,7 @@ function ProjectDetail({ project }: { project: ProjectContent }): ReactNode {
       >
         <Image
           src={project.image}
-          alt={project.imageAlt}
+          alt={content.imageAlt}
           fill
           className="object-cover"
           sizes="(min-width: 768px) 672px, 100vw"
@@ -194,16 +204,24 @@ function ProjectDetail({ project }: { project: ProjectContent }): ReactNode {
       <div className="flex flex-wrap items-center gap-2">
         <span className="border-foreground/10 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-medium text-foreground/70">
           <Icon className="h-3 w-3" aria-hidden="true" />
-          {project.role}
+          {content.role}
         </span>
         <span className="border-foreground/10 rounded-full border px-3 py-1 text-[12px] font-medium text-foreground/70">
-          {project.status}
+          {content.status}
         </span>
       </div>
 
       <p className="text-[16px] leading-relaxed tracking-tight text-foreground/75 sm:text-[17px]">
-        {project.detail}
+        {content.detail}
       </p>
+
+      {content.highlights?.length ? (
+        <ul className="text-foreground/70 list-disc space-y-3 pl-5 text-[14px] leading-relaxed sm:text-[15px]">
+          {content.highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
+          ))}
+        </ul>
+      ) : null}
 
       <div className="flex flex-wrap gap-2">
         {project.tags.map((tag) => (
@@ -225,7 +243,7 @@ function ProjectDetail({ project }: { project: ProjectContent }): ReactNode {
             className="focus-ring bg-foreground text-background inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium"
             onClick={(e) => e.stopPropagation()}
           >
-            Live demo
+            {language === "id" ? "Lihat proyek" : "Live demo"}
             <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
           </a>
         ) : null}
@@ -241,6 +259,18 @@ function ProjectDetail({ project }: { project: ProjectContent }): ReactNode {
             GitHub
           </a>
         ) : null}
+        {project.links?.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-ring border-foreground/10 inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium text-foreground"
+          >
+            {link.label}
+            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        ))}
       </div>
     </div>
   );

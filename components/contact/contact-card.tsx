@@ -10,6 +10,7 @@ import { ContactCardCtas } from "./contact-card-ctas";
 import { ContactForm } from "./contact-form";
 import { Reveal } from "@/components/ui/motion-primitives";
 import { profile } from "@/lib/content";
+import { useLanguage } from "@/lib/language";
 
 const ShaderFlow = dynamic(
   () => import("../shaders/shader-flow").then((m) => m.ShaderFlow),
@@ -20,6 +21,7 @@ const CARD_FADE_MASK =
   "radial-gradient(ellipse 90% 110% at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 40%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.4) 90%, rgba(0,0,0,0.15) 100%)";
 
 export function ContactCard(): ReactNode {
+  const language = useLanguage();
   return (
     <section
       className="relative z-10 mx-auto my-12 w-full max-w-275 px-6 sm:my-20 sm:px-10"
@@ -42,11 +44,10 @@ export function ContactCard(): ReactNode {
             <div className="relative grid gap-6 p-5 sm:gap-7 sm:p-6 md:grid-cols-[1.05fr_0.95fr] md:items-stretch md:gap-5 md:p-5 lg:p-6">
               <div className="flex flex-col gap-5">
                 <h2 className="font-serif text-[2.25rem] font-medium leading-[1.05] tracking-tight text-foreground sm:text-[2.75rem] lg:text-[3.25rem]">
-                  Let&rsquo;s connect
+                  {language === "id" ? "Mari terhubung" : "Let’s connect"}
                 </h2>
                 <p className="max-w-[36ch] text-[17px] leading-[1.4] tracking-tight text-foreground/65 sm:text-[19px]">
-                  Collaborate, discuss a project, or just say hello — form
-                  opens your email app (no backend required).
+                  {language === "id" ? "Diskusikan produk AI, peluang kerja sama, atau sekadar menyapa — formulir akan membuka aplikasi email." : "Discuss an AI product, explore a partnership, or say hello — the form opens your email app."}
                 </p>
                 <ContactForm />
                 <ContactCardCtas />
@@ -57,7 +58,7 @@ export function ContactCard(): ReactNode {
                 <div className="relative aspect-[4/3.2] w-full shrink-0 overflow-hidden sm:aspect-[4/3.4] md:min-h-[14rem] md:flex-1 md:aspect-auto">
                   <Image
                     src={profile.portrait}
-                    alt={`${profile.name} portrait`}
+                    alt={language === "id" ? `Potret ${profile.name}` : `${profile.name} portrait`}
                     fill
                     sizes="(min-width: 768px) 420px, 100vw"
                     className="object-cover object-top grayscale"
@@ -69,7 +70,7 @@ export function ContactCard(): ReactNode {
                       {profile.name}
                     </p>
                     <p className="text-foreground/70 text-[13px] font-medium tracking-tight sm:text-[14px]">
-                      {profile.title}
+                      {language === "id" ? "Pendiri JuanRouter" : profile.title}
                     </p>
                   </div>
                 </div>
@@ -77,20 +78,20 @@ export function ContactCard(): ReactNode {
                 <div className="flex flex-1 flex-col justify-between gap-5 p-5 sm:p-6">
                   <div className="flex flex-col gap-3">
                     <p className="text-foreground/80 text-[15px] leading-relaxed tracking-tight sm:text-[16px]">
-                      &ldquo;{profile.motto}&rdquo;
+                      &ldquo;{language === "id" ? "Sistem cerdas seharusnya membantu manusia, bukan mempersulit hidupnya." : profile.motto}&rdquo;
                     </p>
                     <div className="text-foreground/50 flex items-center gap-1.5 text-[13px] tracking-tight">
                       <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       {profile.location}
                     </div>
                     <span className="border-foreground/10 bg-foreground/4 text-foreground/70 inline-flex w-fit rounded-full border px-3 py-1 text-[12px] font-medium tracking-tight">
-                      Open to collabs & roles
+                      {language === "id" ? "Terbuka untuk kolaborasi & pekerjaan" : "Open to collabs & roles"}
                     </span>
                   </div>
 
                   <div className="flex flex-col gap-3">
                     <p className="text-foreground/45 text-[11px] font-medium tracking-wider uppercase">
-                      Find me
+                      {language === "id" ? "Temukan saya" : "Find me"}
                     </p>
                     <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-3">
                       <SocialIcon
@@ -125,7 +126,7 @@ export function ContactCard(): ReactNode {
                       />
                     </div>
                     <p className="text-foreground/40 pt-1 text-center text-[11px] tracking-tight">
-                      2026 © Juan · AI Specialist
+                      2026 © {profile.name} · {language === "id" ? "Pendiri JuanRouter" : profile.title}
                     </p>
                   </div>
                 </div>

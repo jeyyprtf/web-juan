@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/metadata";
+import { profile } from "@/lib/content";
 
 export function PersonJsonLd() {
   const data = {
@@ -8,7 +9,12 @@ export function PersonJsonLd() {
     alternateName: ["Juan Madhy", "jeyyprtf"],
     url: siteConfig.url,
     email: siteConfig.email,
-    jobTitle: "AI Specialist & Engineer",
+    jobTitle: profile.title,
+    worksFor: {
+      "@type": "Organization",
+      name: "JuanRouter",
+      url: profile.companyUrl,
+    },
     description: siteConfig.description,
     image: `${siteConfig.url}/juan.webp`,
     sameAs: [
@@ -18,6 +24,9 @@ export function PersonJsonLd() {
       siteConfig.social.tiktok,
     ],
     knowsAbout: [
+      "Product Development",
+      "AI Platforms",
+      "Community Building",
       "Artificial Intelligence",
       "AIoT",
       "Full Stack Development",
